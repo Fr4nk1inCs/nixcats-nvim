@@ -39,4 +39,14 @@ M.is_loaded = function(name)
   return Config.plugins[name] and Config.plugins[name]._.loaded
 end
 
+M.get_system = function()
+  if vim.fn.has("mac") then
+    return "mac"
+  elseif vim.fn.has("wsl") then
+    return "wsl"
+  elseif vim.fn.has("linux") then
+    return "linux"
+  end
+end
+
 return M

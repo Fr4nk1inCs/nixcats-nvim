@@ -76,7 +76,11 @@
     # see :help nixCats.flake.outputs.categories
     # and
     # :help nixCats.flake.outputs.categoryDefinitions.scheme
-    categoryDefinitions = {pkgs, ...}: {
+    categoryDefinitions = {
+      pkgs,
+      mkNvimPlugin,
+      ...
+    }: {
       # to define and use a new category, simply add a new list to a set here,
       # and later, you will include categoryname = true; in the set you
       # provide when you build the package using this builder function.
@@ -126,8 +130,39 @@
           shellharden
         ];
 
-        extra = [
-        ];
+        extra =
+          [
+            # extra/editor
+            lynx
+            # extra/languages
+            ## cxx
+            lldb
+            ## go
+            delve
+            gotools
+            gopls
+            gofumpt
+            gomodifytags
+            impl
+            ## latex
+            texlab
+            ## ltex
+            ltex-ls
+            ## markdown
+            marksman
+            markdownlint-cli2
+            ## rust
+            rust-analyzer
+            clippy
+            lldb
+            ## typst
+            tinymist
+            websocat
+          ]
+          ++ lib.optionals pkgs.stdenv.isLinux [
+            xdg-utils
+            wsl-open
+          ];
       };
 
       # NOTE: lazy doesnt care if these are in startupPlugins or optionalPlugins
@@ -215,6 +250,38 @@
         ];
 
         extra = [
+          nvim-nio
+          nvim-treesitter.withAllGrammars
+          # extra/coding
+          CopilotChat-nvim
+          # extra/debug
+          nvim-dap
+          nvim-dap-ui
+          nvim-dap-virtual-text
+          # extra/editor
+          grug-far-nvim
+          nvim-highlight-colors
+          vim-wakatime
+          (mkNvimPlugin
+            (pkgs.fetchFromGitHub {
+              owner = "keaising";
+              repo = "im-select.nvim";
+              rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
+              hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
+            })
+            "im-select.nvim")
+          codesnap-nvim
+          # extra/languages
+          nvim-dap-python
+          nvim-dap-go
+          ltex_extra-nvim
+          markdown-preview-nvim
+          render-markdown-nvim
+          rustaceanvim
+          crates-nvim
+          typst-vim
+          typst-preview-nvim
+          SchemaStore-nvim
         ];
       };
 
@@ -291,15 +358,22 @@
     in {
       # These are the names of your packages
       # you can include as many as you wish.
-      nvim = _: {
+      nvim = {pkgs, ...}: {
         inherit settings;
         # and a set of categories that you want
         # (and other information to pass to lua)
-        categories = {
-          general = true;
-          extra = true;
-          test = false;
-        };
+        categories =
+          {
+            general = true;
+            extra = true;
+            test = false;
+
+            debugpy_python = with pkgs;
+              lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
+          }
+          // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+            skim = toString pkgs.skim;
+          };
         extra = {};
       };
       minivim = _: {
