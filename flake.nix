@@ -377,7 +377,7 @@
         extra = {};
       };
       minivim = _: {
-        inherit settings;
+        settings = settings // {aliases = ["nvim" "vim" "vi" "v"];};
         categories = {
           general = true;
           extra = false;
