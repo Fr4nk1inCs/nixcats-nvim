@@ -18,7 +18,7 @@ return {
         desc = "Explorer NeoTree (cwd)",
       },
       { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (Root Dir)", remap = true },
-      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+      { "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)",      remap = true },
       {
         "<leader>ge",
         function()
@@ -138,7 +138,7 @@ return {
       local events = require("neo-tree.events")
       opts.event_handlers = opts.event_handlers or {}
       vim.list_extend(opts.event_handlers, {
-        { event = events.FILE_MOVED, handler = on_move },
+        { event = events.FILE_MOVED,   handler = on_move },
         { event = events.FILE_RENAMED, handler = on_move },
       })
       require("neo-tree").setup(opts)
@@ -156,6 +156,7 @@ return {
   {
     "mikavilpas/yazi.nvim",
     event = "VeryLazy",
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       {
         "<leader>fY",
@@ -184,3 +185,4 @@ return {
     },
   },
 }
+
