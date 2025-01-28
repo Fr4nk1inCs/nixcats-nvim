@@ -18,6 +18,8 @@ return {
       { "<leader>mp", ft = "markdown", "<cmd>MarkdownPreviewToggle<cr>", desc = "Markdown Preview" },
     },
     config = function()
+      vim.g.mkdp_markdown_css = nixCats("markdown_css") or vim.fn.expand("~/.config/nvim/assets/terminal.css")
+      vim.g.mkdp_highlight_css = nixCats("highlight_css") or vim.fn.expand("~/.config/nvim/assets/highlight.css")
       vim.cmd([[do FileType]])
     end,
   },

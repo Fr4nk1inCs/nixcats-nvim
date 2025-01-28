@@ -370,6 +370,9 @@
 
             debugpy_python = with pkgs;
               lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
+
+            markdown_css = toString ./assets/terminal.css;
+            highlight_css = toString ./assets/highlight.css;
           }
           // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
             skim = toString pkgs.skim;
