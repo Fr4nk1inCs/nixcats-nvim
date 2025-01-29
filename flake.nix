@@ -133,6 +133,8 @@
           ## frontend
           nodePackages.prettier
           eslint
+          ## toml
+          taplo
         ];
 
         extra =
