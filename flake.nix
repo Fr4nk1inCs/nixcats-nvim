@@ -130,6 +130,9 @@
           shellharden
           ## typescript
           vtsls
+          ## frontend
+          nodePackages.prettier
+          eslint
         ];
 
         extra =
