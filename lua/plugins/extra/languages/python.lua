@@ -1,14 +1,4 @@
 local debugpy_python = nixCats("debugpy_python")
-if not debugpy_python then
-  pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
-  local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
-  debugpy_python = root .. "/packages/debugpy/venv/bin/python"
-  if not vim.uv.fs_stat(debugpy_python) and not require("lazy.core.config").headless() then
-    Snacks.notify.warn([[Mason package path not found for **debugpy**:
-- `/venv/bin/python`
-You may need to force update the package.]])
-  end
-end
 
 local function dap_python(command)
   return function()
@@ -28,7 +18,18 @@ return {
         { "<leader>dPc", dap_python("test_class"),  desc = "Debug Class",  ft = "python" },
       },
       config = function()
-        require("dap-python").setup(debugpy_python)
+        local python = debugpy_python
+        if not python then
+          pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
+          local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
+          python = root .. "/packages/debugpy/venv/bin/python"
+          if not vim.uv.fs_stat(debugpy_python) and not require("lazy.core.config").headless() then
+            Snacks.notify.warn([[Mason package path not found for **debugpy**:
+- `/venv/bin/python`
+You may need to force update the package.]])
+          end
+        end
+        require("dap-python").setup(python)
       end,
     },
   },

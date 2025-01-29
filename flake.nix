@@ -128,6 +128,8 @@
           bash-language-server
           shfmt
           shellharden
+          ## typescript
+          vtsls
         ];
 
         extra =
@@ -370,6 +372,7 @@
 
             debugpy_python = with pkgs;
               lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
+            js_debug_server = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/src/dapDebugServer.js";
 
             markdown_css = toString ./assets/terminal.css;
             highlight_css = toString ./assets/highlight.css;
