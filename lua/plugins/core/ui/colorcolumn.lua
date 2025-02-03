@@ -21,6 +21,7 @@ return {
         "zsh",
         "leetcode.nvim",
         "snacks_dashboard",
+        "Avante",
       },
     },
   },

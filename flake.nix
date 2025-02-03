@@ -260,7 +260,8 @@
           nvim-nio
           nvim-treesitter.withAllGrammars
           # extra/coding
-          CopilotChat-nvim
+          dressing-nvim
+          avante-nvim
           # extra/debug
           nvim-dap
           nvim-dap-ui
