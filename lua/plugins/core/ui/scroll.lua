@@ -3,7 +3,7 @@ return {
     "folke/snacks.nvim",
     opts = {
       scroll = {
-        enabled = true,
+        enabled = not vim.g.neovide,
       },
     },
   },
