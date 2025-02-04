@@ -1,5 +1,3 @@
-local js_debug_server = nixCats("js_debug_server")
-
 local function action(command)
   return function()
     vim.lsp.buf.code_action({
@@ -196,22 +194,24 @@ return {
     dependencies = {
       {
         "williamboman/mason.nvim",
-        opts = function(_, opts)
-          opts.ensure_installed = opts.ensure_installed or {}
-          table.insert(opts.ensure_installed, "js-debug-adapter")
-        end,
+        opts = {
+          ensure_installed = "js-debug-adapter",
+        },
       },
     },
     opts = function()
-      local dap_debug_server = js_debug_server
+      local dap_debug_server = nixCats("js_debug_server")
       if not dap_debug_server then
         pcall(require, "mason") -- make sure Mason is loaded. Will fail when generating docs
         local root = vim.env.MASON or (vim.fn.stdpath("data") .. "/mason")
         dap_debug_server = root .. "/packages/js-debug-adapter/js-debug/src/dapDebugServer.js"
-        if not vim.uv.fs_stat(ret) and not require("lazy.core.config").headless() then
-          Snacks.notify.warn([[Mason package path not found for **js-debug-adapter**:
-- `/js-debug/src/dapDebugServer.js`
-You may need to force update the package.]])
+        if not vim.uv.fs_stat(dap_debug_server) and not require("lazy.core.config").headless() then
+          vim.notify(
+            "Mason package path not found for **js-debug-adapter**:\n"
+            .. "- `/js-debug/src/dapDebugServer.js`"
+            .. "You may need to force update the package.",
+            vim.log.levels.WARN
+          )
         end
       end
 

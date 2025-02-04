@@ -54,10 +54,8 @@
     # the nixCats builder function will accept either.
     # see :help nixCats.flake.outputs.overlays
     dependencyOverlays =
-      /*
-      (import ./overlays inputs) ++
-      */
-      [
+      (import ./overlays inputs)
+      ++ [
         # This overlay grabs all the inputs named in the format
         # `plugins-<pluginName>`
         # Once we add this overlay to our nixpkgs, we are able to
@@ -128,13 +126,6 @@
           bash-language-server
           shfmt
           shellharden
-          ## typescript
-          vtsls
-          ## frontend
-          nodePackages.prettier
-          eslint
-          ## toml
-          taplo
         ];
 
         extra =
@@ -165,6 +156,15 @@
             ## typst
             tinymist
             websocat
+            ## typescript
+            vtsls
+            ## frontend
+            nodePackages.prettier
+            eslint
+            ## toml
+            taplo
+            ## astro
+            astro-language-server
           ]
           ++ lib.optionals pkgs.stdenv.isLinux [
             xdg-utils
@@ -379,6 +379,7 @@
             debugpy_python = with pkgs;
               lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
             js_debug_server = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/src/dapDebugServer.js";
+            astro_ts_plugin = "${pkgs.astro-language-server}/lib/astro-language-server/packages/ts-plugin";
 
             markdown_css = toString ./assets/terminal.css;
             highlight_css = toString ./assets/highlight.css;
