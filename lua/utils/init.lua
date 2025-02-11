@@ -40,11 +40,11 @@ M.is_loaded = function(name)
 end
 
 M.get_system = function()
-  if vim.fn.has("mac") then
+  if vim.fn.has("mac") == 1 then
     return "mac"
-  elseif vim.fn.has("wsl") then
+  elseif vim.fn.has("wsl") == 1 then
     return "wsl"
-  elseif vim.fn.has("linux") then
+  elseif vim.fn.has("linux") == 1 then
     return "linux"
   end
 end
