@@ -69,7 +69,7 @@ return {
         -- nix already ensured they were installed, and we would need to change
         -- the parser_install_dir if we wanted to use it instead.
         -- so we just disable install and do it via nix.
-        opts.ensure_installed = require("nixCatsUtils").lazyAdd(require("utils").dedup(opts.ensure_installed), false)
+        opts.ensure_installed = require("nixCatsUtils").lazyAdd(Utils.dedup(opts.ensure_installed), false)
       end
       require("nvim-treesitter.configs").setup(opts)
     end,
@@ -80,8 +80,8 @@ return {
     enabled = true,
     config = function()
       -- If treesitter is already loaded, we need to run config again for textobjects
-      if require("utils").is_loaded("nvim-treesitter") then
-        local opts = require("utils").opts("nvim-treesitter")
+      if Utils.is_loaded("nvim-treesitter") then
+        local opts = Utils.opts("nvim-treesitter")
         require("nvim-treesitter.configs").setup({ textobjects = opts.textobjects })
       end
 

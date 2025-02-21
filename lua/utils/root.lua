@@ -1,6 +1,4 @@
-local utils = require("utils")
-
----@class utils.root
+---@class Utils.root
 ---@overload fun(opts?: table): string
 local M = setmetatable({}, {
   __call = function(m, ...)
@@ -45,7 +43,7 @@ function M.detectors.lsp(buf)
     end
   end
   return vim.tbl_filter(function(path)
-    path = utils.norm(path)
+    path = Utils.norm(path)
     return path and bufpath:find(path, 1, true) == 1
   end, roots)
 end
@@ -81,7 +79,7 @@ function M.realpath(path)
     return nil
   end
   path = vim.uv.fs_realpath(path) or path
-  return utils.norm(path)
+  return Utils.norm(path)
 end
 
 ---@param spec LazyRootSpec

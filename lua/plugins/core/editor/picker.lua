@@ -18,7 +18,7 @@ local function pick(command, opts)
     end
 
     if not opts.cwd and opts.root ~= false then
-      opts.cwd = require("utils.root")({ buf = opts.buf })
+      opts.cwd = Utils.root({ buf = opts.buf })
     end
 
     require("fzf-lua")[command](opts)
@@ -53,7 +53,7 @@ return {
         o.root = o.root == false
         o.buf = ctx.__CTX.bufnr
 
-        o.cwd = o.root and require("utils.root")({ buf = o.buf }) or nil
+        o.cwd = o.root and Utils.root({ buf = o.buf }) or nil
         require("fzf-lua")[ctx.__INFO.cmd](o)
       end
       config.defaults.actions.files["alt-c"] = config.defaults.actions.files["ctrl-r"]

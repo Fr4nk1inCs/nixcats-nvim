@@ -34,7 +34,7 @@ vim.keymap.set("n", "<C-r>", "<Cmd>call VSCodeNotify('redo')<CR>")
 vim.keymap.set("n", "<S-h>", "<Cmd>call VSCodeNotify('workbench.action.previousEditor')<CR>")
 vim.keymap.set("n", "<S-l>", "<Cmd>call VSCodeNotify('workbench.action.nextEditor')<CR>")
 
-function Snacks.terminal.toggle()
+Utils.terminal.toggle = function()
   require("vscode").action("workbench.action.terminal.toggleTerminal")
 end
 

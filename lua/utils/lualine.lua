@@ -1,7 +1,4 @@
-local utils = require("utils")
-utils.root = require("utils.root")
-
----@class utils.lualine
+---@class Utils.lualine
 local M = {}
 
 ---@param icon string
@@ -75,9 +72,9 @@ function M.pretty_path(opts)
       return ""
     end
 
-    path = utils.norm(path)
-    local root = utils.root.get({ normalize = true })
-    local cwd = utils.root.cwd()
+    path = Utils.norm(path)
+    local root = Utils.root.get({ normalize = true })
+    local cwd = Utils.root.cwd()
 
     if opts.relative == "cwd" and path:find(cwd, 1, true) == 1 then
       path = path:sub(#cwd + 2)
@@ -129,8 +126,8 @@ function M.root_dir(opts)
   }, opts or {})
 
   local function get()
-    local cwd = utils.root.cwd()
-    local root = utils.root.get({ normalize = true })
+    local cwd = Utils.root.cwd()
+    local root = Utils.root.get({ normalize = true })
     local name = vim.fs.basename(root)
 
     if root == cwd then

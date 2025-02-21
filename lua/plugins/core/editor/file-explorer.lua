@@ -6,7 +6,7 @@ return {
       {
         "<leader>fe",
         function()
-          require("neo-tree.command").execute({ toggle = true, dir = require("utils.root")() })
+          require("neo-tree.command").execute({ toggle = true, dir = Utils.root() })
         end,
         desc = "Explorer NeoTree (Root Dir)",
       },

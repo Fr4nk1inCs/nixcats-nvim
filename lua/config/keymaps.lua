@@ -107,7 +107,7 @@ map("n", "[w", diag_prev("WARN"), { desc = "Previous warning" })
 
 -- Terminal
 map({ "n", "i", "t" }, "<c-\\>", function()
-  Snacks.terminal.toggle()
+  Utils.terminal.toggle()
 end, { desc = "Toggle (default/current/numbered) terminal" })
 map({ "n", "i" }, "<c-/>", "2<c-\\>", { desc = "Toggle terminal 2", remap = true })
 map("t", "<c-/>", "<cmd>close<cr>", { desc = "Hide terminal" })

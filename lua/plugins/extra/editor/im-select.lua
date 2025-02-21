@@ -1,4 +1,4 @@
-local system = require("utils").get_system()
+local system = Utils.get_system()
 
 local opts = {
   default_command = "",

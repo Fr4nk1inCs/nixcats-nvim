@@ -1,3 +1,5 @@
+_G.Utils = require("utils")
+
 require("config.after")
 require("config.autocmds")
 require("config.options")
