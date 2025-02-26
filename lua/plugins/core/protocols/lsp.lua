@@ -67,7 +67,7 @@ return {
       end
       local lsp_pick = function(command)
         return function()
-          require("fzf-lua")[command]({ jump_to_single_result = true, ignore_current_line = true })
+          require("fzf-lua")[command]({ jump1 = true, ignore_current_line = true })
         end
       end
 
