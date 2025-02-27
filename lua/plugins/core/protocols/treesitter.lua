@@ -13,7 +13,7 @@ return {
     },
     lazy = vim.fn.argc(-1) == 0,
 
-    opts_extend = require("nixCatsUtils").lazyAdd("ensure_installed", false),
+    opts_extend = require("nixCatsUtils").lazyAdd({ "ensure_installed" }, nil),
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
@@ -69,7 +69,7 @@ return {
         -- nix already ensured they were installed, and we would need to change
         -- the parser_install_dir if we wanted to use it instead.
         -- so we just disable install and do it via nix.
-        opts.ensure_installed = require("nixCatsUtils").lazyAdd(Utils.dedup(opts.ensure_installed), false)
+        opts.ensure_installed = require("nixCatsUtils").lazyAdd(Utils.dedup(opts.ensure_installed), nil)
       end
       require("nvim-treesitter.configs").setup(opts)
     end,
