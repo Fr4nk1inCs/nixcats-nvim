@@ -52,11 +52,11 @@ end
 M.terminal = {
   toggle = function()
     Snacks.terminal.toggle()
-  end
+  end,
 }
 
 M.fold = require("utils.fold")
 M.lualine = require("utils.lualine")
-M.root =  require("utils.root")
+M.root = require("utils.root")
 
 return M
