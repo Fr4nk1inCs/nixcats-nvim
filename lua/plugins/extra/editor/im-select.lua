@@ -1,3 +1,7 @@
+if vim.env.USER ~= "fr4nk1in" then
+  return {}
+end
+
 local system = Utils.get_system()
 
 local opts = {
