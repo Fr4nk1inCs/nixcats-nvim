@@ -35,8 +35,10 @@ return {
       },
       markdown = {
         hover = {
-          ["|(%S-)|"] = vim.cmd.help,                       -- vim help links
-          ["%[.-%]%((%S-)%)"] = require("noice.util").open, -- markdown links
+          ["|(%S-)|"] = vim.cmd.help, -- vim help links
+          ["%[.-%]%((%S-)%)"] = function(uri)
+            require("noice.util").open(uri)
+          end, -- markdown links
         },
       },
     },
