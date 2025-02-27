@@ -2,6 +2,13 @@ return {
   {
     "saghen/blink.cmp",
 
+    dependencies = {
+      {
+        "xzbdmw/colorful-menu.nvim",
+        opts = {},
+      },
+    },
+
     -- use a release tag to download pre-built binaries
     version = "*",
     -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
@@ -49,6 +56,16 @@ return {
             columns = {
               { "label",     "label_description", gap = 1 },
               { "kind_icon", "kind" },
+            },
+            components = {
+              label = {
+                text = function(ctx)
+                  return require("colorful-menu").blink_components_text(ctx)
+                end,
+                highlight = function(ctx)
+                  return require("colorful-menu").blink_components_highlight(ctx)
+                end,
+              },
             },
           },
         },
