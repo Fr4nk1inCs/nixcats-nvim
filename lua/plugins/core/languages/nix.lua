@@ -1,3 +1,7 @@
+if not vim.fn.executable("nix") then
+  return {}
+end
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -23,12 +27,12 @@ return {
       },
     },
   },
-  {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = { "nixd", "alejandra", "deadnix", "statix" },
-    },
-  },
+  -- {
+  --   "williamboman/mason.nvim",
+  --   opts = {
+  --     ensure_installed = { "nil", "alejandra" },
+  --   },
+  -- },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
