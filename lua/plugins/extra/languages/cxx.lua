@@ -1,6 +1,6 @@
 local command = vim.fn.exepath("lldb-dap")
 if command == "" then
-  Snacks.notify("LLDB is not installed, please install it to use the C/C++ debugger", "error")
+  vim.notify("LLDB is not installed, please install it to use the C/C++ debugger", vim.log.levels.ERROR)
   return {}
 end
 
