@@ -47,7 +47,7 @@ return {
           border = "rounded",
           draw = {
             columns = {
-              { "label", "label_description", gap = 1 },
+              { "label",     "label_description", gap = 1 },
               { "kind_icon", "kind" },
             },
           },
@@ -58,6 +58,13 @@ return {
           window = {
             border = "rounded",
           },
+        },
+      },
+
+      cmdline = {
+        completion = {
+          ghost_text = { enabled = false },
+          menu = { auto_show = true },
         },
       },
 
