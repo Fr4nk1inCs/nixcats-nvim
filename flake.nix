@@ -272,6 +272,7 @@
           codesnap-nvim
           # extra/external
           vim-wakatime
+          obsidian-nvim
           (mkNvimPlugin
             (pkgs.fetchFromGitHub {
               owner = "keaising";
