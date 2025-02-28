@@ -39,6 +39,8 @@ M.is_loaded = function(name)
   return Config.plugins[name] and Config.plugins[name]._.loaded
 end
 
+---get the system kernel type
+---@return "mac" | "wsl" | "linux"
 M.get_system = function()
   if vim.fn.has("mac") == 1 then
     return "mac"

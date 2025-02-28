@@ -269,6 +269,8 @@
           # extra/editor
           grug-far-nvim
           nvim-highlight-colors
+          codesnap-nvim
+          # extra/external
           vim-wakatime
           (mkNvimPlugin
             (pkgs.fetchFromGitHub {
@@ -278,7 +280,6 @@
               hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
             })
             "im-select.nvim")
-          codesnap-nvim
           # extra/languages
           nvim-dap-python
           nvim-dap-go
