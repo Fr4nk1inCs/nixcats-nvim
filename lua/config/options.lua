@@ -78,6 +78,7 @@ vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
 vim.opt.spelloptions:append("noplainbuffer")
 
 vim.o.exrc = true
+vim.o.modeline = true
 
 if vim.env.SSH_TTY then
   vim.g.clipboard = {
