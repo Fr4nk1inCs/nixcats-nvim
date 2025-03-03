@@ -118,7 +118,7 @@
           ## c/c++/cuda + cmake
           clang-tools
           neocmakelsp
-          cmake-lint
+          cmake-format
           ## json & yaml
           vscode-langservers-extracted # for jsonls
           yaml-language-server
@@ -132,6 +132,7 @@
           [
             # extra/editor
             lynx
+            imagemagick
             # extra/languages
             ## cxx
             lldb
@@ -169,6 +170,9 @@
           ++ lib.optionals pkgs.stdenv.isLinux [
             xdg-utils
             wsl-open
+          ]
+          ++ lib.optionals pkgs.stdenv.isDarwin [
+            coreutils-prefixed
           ];
       };
 
@@ -183,6 +187,7 @@
           # core/coding
           ts-comments-nvim
           blink-cmp
+          colorful-menu-nvim
           nvim-autopairs
           tabout-nvim
           rainbow-delimiters-nvim
@@ -339,7 +344,6 @@
       };
       # populates $LUA_PATH and $LUA_CPATH
       extraLuaPackages = {
-        extra = [(p: with p; [tiktoken_core])];
         test = [(_: [])];
       };
     };
