@@ -33,6 +33,7 @@ return {
         min_width = 45,
       },
       heading = { sign = false },
+      latex = { enabled = false },
     },
     ft = { "markdown", "norg", "rmd", "org" },
     config = function(_, opts)
