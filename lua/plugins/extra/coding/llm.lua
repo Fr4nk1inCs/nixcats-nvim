@@ -18,15 +18,23 @@ return {
           endpoint = "https://api.deepseek.com",
           model = "deepseek-chat",
         },
-        ["copilot-o3-mini"] = {
+        ["o3-mini"] = {
           __inherited_from = "copilot",
           model = "o3-mini",
         },
-        ["copilot-claude-3.5-sonnet"] = {
+        ["claude-3.7-sonnet"] = {
           __inherited_from = "copilot",
-          model = "claude-3.5-sonnet",
+          model = "claude-3.7-sonnet",
         },
-        ["copilot-gpt-4o"] = {
+        ["claude-3.7-sonnet-thought"] = {
+          __inherited_from = "copilot",
+          model = "claude-3.7-sonnet",
+        },
+        ["gemini-2.0-flash"] = {
+          __inherited_from = "copilot",
+          model = "gemini-2.0-flash",
+        },
+        ["gpt-4o"] = {
           __inherited_from = "copilot",
           model = "gpt-4o",
         },
