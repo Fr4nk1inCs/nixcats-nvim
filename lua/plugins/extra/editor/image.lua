@@ -5,6 +5,10 @@ return {
     opts = {
       image = {
         enabled = true,
+        doc = {
+          inline = false,
+          float = true,
+        },
 
         math = {
           typst = {
