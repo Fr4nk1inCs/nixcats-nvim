@@ -1,5 +1,6 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.markdown_recommended_style = 0
 
 vim.opt.autowrite = true
 vim.opt.colorcolumn = { "80", "120" }
