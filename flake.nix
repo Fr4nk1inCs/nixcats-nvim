@@ -281,6 +281,7 @@
           # extra/external
           vim-wakatime
           obsidian-nvim
+          blink-compat
           (mkNvimPlugin
             (pkgs.fetchFromGitHub {
               owner = "keaising";

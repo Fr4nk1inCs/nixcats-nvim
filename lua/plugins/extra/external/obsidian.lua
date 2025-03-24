@@ -30,7 +30,7 @@ end
 
 return {
   {
-    "epwalsh/obsidian.nvim",
+    "obsidian-nvim/obsidian.nvim",
     version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
     events = trigger_events,
@@ -38,6 +38,40 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "ibhagwan/fzf-lua",
+      {
+        "saghen/blink.cmp",
+        dependencies = {
+          {
+            "saghen/blink.compat",
+            version = "*",
+            lazy = true,
+            opts = {},
+          },
+        },
+        ---@module 'blink.cmp'
+        ---@type blink.cmp.Config
+        opts = {
+          sources = {
+            per_filetype = {
+              markdown = { "obsidian", "obsidian_new", "obsidian_tags" },
+            },
+            providers = {
+              obsidian = {
+                name = "obsidian",
+                module = "blink.compat.source",
+              },
+              obsidian_new = {
+                name = "obsidian_new",
+                module = "blink.compat.source",
+              },
+              obsidian_tags = {
+                name = "obsidian_tags",
+                module = "blink.compat.source",
+              },
+            },
+          },
+        },
+      },
     },
     opts = {
       workspaces = workspaces,
@@ -63,6 +97,10 @@ return {
         return tostring(os.date("%Y%m%d%H%M")) .. "-" .. suffix
       end,
 
+      completion = {
+        blink = true,
+      },
+
       templates = {
         folder = "__meta/templates",
       },
@@ -82,4 +120,5 @@ return {
       -- see below for full list of options 👇
     },
   },
+  {},
 }
