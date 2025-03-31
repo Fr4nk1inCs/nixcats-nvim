@@ -57,7 +57,6 @@ M.terminal = {
   end,
 }
 
-M.fold = require("utils.fold")
 M.lualine = require("utils.lualine")
 M.root = require("utils.root")
 

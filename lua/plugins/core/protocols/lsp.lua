@@ -5,26 +5,6 @@ return {
     ---@class PluginLspOpts
     opts = {
       servers = {},
-      -- options for vim.diagnostic.config()
-      ---@type vim.diagnostic.Opts
-      diagnostics = {
-        underline = true,
-        update_in_insert = false,
-        virtual_text = {
-          spacing = 4,
-          source = "if_many",
-          prefix = "●",
-        },
-        severity_sort = true,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.HINT] = " ",
-            [vim.diagnostic.severity.INFO] = " ",
-          },
-        },
-      },
       -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
       -- Be aware that you also will need to properly configure your LSP server to
       -- provide the inlay hints.
@@ -62,44 +42,49 @@ return {
     ---@param opts PluginLspOpts
     config = function(_, opts)
       -- setup keymaps
-      local set = function(mode, lhs, rhs, desc)
-        vim.keymap.set(mode, lhs, rhs, { desc = desc, silent = true })
-      end
       local lsp_pick = function(command)
         return function()
-          require("fzf-lua")[command]({ jump1 = true, ignore_current_line = true })
+          require("fzf-lua")[command]({ jump_to_single_result = true, ignore_current_line = true })
         end
       end
-
-      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
       local servers = opts.servers
 
-      local on_attach = function(client, bufnr)
-        set("n", "<leader>cr", vim.lsp.buf.rename, "Rename")
-        set("n", "K", vim.lsp.buf.hover, "Hover")
-        set("n", "gK", vim.lsp.buf.signature_help, "Signature help")
-        set("i", "<c-s>", vim.lsp.buf.signature_help, "Signature help")
-        set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-        set({ "n", "v" }, "<leader>cc", vim.lsp.codelens.run, "Run codelens")
-        set({ "n", "v" }, "<leader>cC", vim.lsp.codelens.refresh, "Refresh codelens")
-        set("n", "gd", lsp_pick("lsp_definitions"), "Goto definition")
-        set("n", "gr", lsp_pick("lsp_references"), "References")
-        set("n", "gI", lsp_pick("lsp_implementations"), "Goto implementation")
-        set("n", "gy", lsp_pick("lsp_typedefs"), "Goto t[y]pe definition")
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature help" })
+          vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.run, { desc = "Run codelens" })
+          vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.refresh, { desc = "Refresh codelens" })
+          vim.keymap.set("n", "gd", lsp_pick("lsp_definitions"), { desc = "Goto definition" })
+          vim.keymap.set("n", "grr", lsp_pick("lsp_references"), { desc = "References" })
+          vim.keymap.set("n", "gri", lsp_pick("lsp_implementations"), { desc = "Goto implementation" })
+          vim.keymap.set("n", "gry", lsp_pick("lsp_typedefs"), { desc = "Goto t[y]pe definition" })
+          vim.keymap.set("n", "gO", require("fzf-lua").lsp_document_symbols, { desc = "Document symbol" })
+          vim.keymap.set("n", "gwO", require("fzf-lua").lsp_live_workspace_symbols, { desc = "Workspace symbol" })
 
-        if client.server_capabilities.inlayHintProvider then
-          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-        end
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
-        if client.server_capabilities.codeLensProvider then
-          vim.lsp.codelens.refresh()
-          vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-            buffer = bufnr,
-            callback = vim.lsp.codelens.refresh,
-          })
-        end
-      end
+          if client.server_capabilities.foldingRangeProvider then
+            local win = vim.api.nvim_get_current_win()
+            vim.wo[win][0].foldmethod = "expr"
+            vim.wo[win][0].foldexpr = "v:lua.vim.lsp.foldexpr()"
+          end
+
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+          end
+
+          if client.server_capabilities.codeLensProvider then
+            vim.lsp.codelens.refresh()
+            vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
+              buffer = bufnr,
+              callback = vim.lsp.codelens.refresh,
+            })
+          end
+        end,
+      })
+
+      vim.api.nvim_create_autocmd("LspDetach", { command = "setl foldexpr<" })
 
       local blink = require("blink.cmp")
       local capabilities = vim.tbl_deep_extend(
@@ -116,16 +101,6 @@ return {
         }, servers[server] or {})
         if server_opts.enabled == false then
           return
-        end
-
-        if server_opts.on_attach then
-          local old_on_attach = server_opts.on_attach
-          server_opts.on_attach = function(client, bufnr)
-            on_attach(client, bufnr)
-            old_on_attach(client, bufnr)
-          end
-        else
-          server_opts.on_attach = on_attach
         end
 
         if opts.setup[server] then

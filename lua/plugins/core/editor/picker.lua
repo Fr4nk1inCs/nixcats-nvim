@@ -244,8 +244,6 @@ return {
       { "<leader>sw",      pick("grep_visual"),                   desc = "Selection (root)",        mode = "v" },
       { "<leader>sW",      pick("grep_visual", { root = false }), desc = "Selection (cwd)",         mode = "v" },
       { "<leader>uC",      pick("colorschemes"),                  desc = "Colorscheme with preview" },
-      { "<leader>ss",      pick("lsp_document_symbols"),          desc = "Goto symbol" },
-      { "<leader>sS",      pick("lsp_live_workspace_symbols"),    desc = "Goto symbol (workspace)" },
     },
   },
   {

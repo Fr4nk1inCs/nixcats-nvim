@@ -8,10 +8,13 @@ return {
     opts = {
       servers = {
         nixd = {
-          on_attach = function(client, _)
-            -- disable LSP formatting
-            client.server_capabilities.documentFormattingProvider = false
-          end,
+          settings = {
+            nixd = {
+              formatting = {
+                command = { "alejandra" },
+              },
+            },
+          },
         },
       },
     },
@@ -20,7 +23,6 @@ return {
     "nvimtools/none-ls.nvim",
     opts = {
       sources = {
-        require("null-ls").builtins.formatting.alejandra,
         require("null-ls").builtins.diagnostics.deadnix,
         require("null-ls").builtins.diagnostics.statix,
         require("null-ls").builtins.code_actions.statix,

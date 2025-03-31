@@ -1,9 +1,3 @@
-local lsp_pick = function(command)
-  return function()
-    require("fzf-lua")[command]({ jump1 = true, ignore_current_line = true })
-  end
-end
-
 return {
   {
     "Saecki/crates.nvim",
@@ -32,64 +26,7 @@ return {
     opts = {
       server = {
         on_attach = function(client, bufnr)
-          vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename", silent = true, bufnr = bufnr })
-          vim.keymap.set(
-            "n",
-            "gK",
-            vim.lsp.buf.signature_help,
-            { desc = "Signature help", silent = true, bufnr = bufnr }
-          )
-          vim.keymap.set(
-            "i",
-            "<c-s>",
-            vim.lsp.buf.signature_help,
-            { desc = "Signature help", silent = true, bufnr = bufnr }
-          )
-          vim.keymap.set(
-            { "n", "v" },
-            "<leader>cc",
-            vim.lsp.codelens.run,
-            { desc = "Run codelens", silent = true, bufnr = bufnr }
-          )
-          vim.keymap.set(
-            { "n", "v" },
-            "<leader>cC",
-            vim.lsp.codelens.refresh,
-            { desc = "Refresh codelens", silent = true, bufnr = bufnr }
-          )
-          vim.keymap.set(
-            "n",
-            "gd",
-            lsp_pick("lsp_definitions"),
-            { desc = "Goto definition", silent = true, bufnr = bufnr }
-          )
-          vim.keymap.set("n", "gr", lsp_pick("lsp_references"), { desc = "References", silent = true, bufnr = bufnr })
-          vim.keymap.set(
-            "n",
-            "gI",
-            lsp_pick("lsp_implementations"),
-            { desc = "Goto implementation", silent = true, bufnr = bufnr }
-          )
-          vim.keymap.set(
-            "n",
-            "gy",
-            lsp_pick("lsp_typedefs"),
-            { desc = "Goto t[y]pe definition", silent = true, bufnr = bufnr }
-          )
-
-          if client.server_capabilities.inlayHintProvider then
-            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-          end
-
-          if client.server_capabilities.codeLensProvider then
-            vim.lsp.codelens.refresh()
-            vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-              buffer = bufnr,
-              callback = vim.lsp.codelens.refresh,
-            })
-          end
-
-          vim.keymap.set("n", "<leader>ca", function()
+          vim.keymap.set("n", "gra", function()
             vim.cmd.RustLsp("codeAction")
           end, { desc = "Code Action", buffer = bufnr })
           vim.keymap.set("n", "<leader>dr", function()

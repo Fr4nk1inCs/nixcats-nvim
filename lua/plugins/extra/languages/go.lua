@@ -1,3 +1,25 @@
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
+      -- workaround for gopls not supporting semanticTokensProvider
+      -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
+      local semantic = client.config.capabilities.textDocument.semanticTokens
+      if not semantic then
+        return
+      end
+      client.server_capabilities.semanticTokensProvider = {
+        full = true,
+        legend = {
+          tokenTypes = semantic.tokenTypes,
+          tokenModifiers = semantic.tokenModifiers,
+        },
+        range = true,
+      }
+    end
+  end,
+})
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -8,21 +30,6 @@ return {
     opts = {
       servers = {
         gopls = {
-          on_attach = function(client, _)
-            -- workaround for gopls not supporting semanticTokensProvider
-            -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
-            if not client.server_capabilities.semanticTokensProvider then
-              local semantic = client.config.capabilities.textDocument.semanticTokens
-              client.server_capabilities.semanticTokensProvider = {
-                full = true,
-                legend = {
-                  tokenTypes = semantic.tokenTypes,
-                  tokenModifiers = semantic.tokenModifiers,
-                },
-                range = true,
-              }
-            end
-          end,
           settings = {
             gopls = {
               gofumpt = true,

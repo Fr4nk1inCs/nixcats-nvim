@@ -12,14 +12,12 @@ vim.opt.cursorline = true -- Enable highlight of current line
 vim.opt.expandtab = true  -- Space instead of tabs
 vim.opt.fileencodings = { "ucs-bom", "utf-8", "GB18030", "gbk" }
 vim.opt.fillchars = {
-  foldopen = "",
-  foldclose = "",
   fold = " ",
-  foldsep = " ",
   diff = "╱",
   eob = " ",
 }
-vim.opt.foldexpr = "v:lua.require'utils.fold'.foldexpr()"
+vim.opt.foldenable = true
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = "expr"
 vim.opt.foldtext = ""
@@ -81,19 +79,7 @@ vim.opt.spelloptions:append("noplainbuffer")
 vim.o.exrc = true
 vim.o.modeline = true
 
-if vim.env.SSH_TTY then
-  vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-    },
-    paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
-    },
-  }
-elseif vim.fn.has("wsl") == 1 then
+if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
     name = "WslClipboard",
     -- Install Neovim on host (Windows) to use faster global clipboard

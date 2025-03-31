@@ -1,3 +1,18 @@
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client.name == "clangd" then
+      vim.keymap.set(
+        "n",
+        "<leader>ch",
+        "<cmd>ClangdSwitchSourceHeader<cr>",
+        { buffer = args.buf, desc = "Switch Source/Header (C/C++)", silent = true }
+      )
+    end
+  end,
+})
+
 return {
   {
     "p00f/clangd_extensions.nvim",
@@ -41,14 +56,6 @@ return {
       servers = {
         -- Ensure mason installs the server
         clangd = {
-          on_attach = function(_, bufnr)
-            vim.keymap.set(
-              "n",
-              "<leader>ch",
-              "<cmd>ClangdSwitchSourceHeader<cr>",
-              { buffer = bufnr, desc = "Switch Source/Header (C/C++)", silent = true }
-            )
-          end,
           root_dir = function(fname)
             return require("lspconfig.util").root_pattern(
               "Makefile",

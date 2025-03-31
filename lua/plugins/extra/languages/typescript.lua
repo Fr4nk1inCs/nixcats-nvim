@@ -15,7 +15,7 @@ end
 ---@field [2] string|function rhs
 ---@field desc? string
 
----lsp buflocal keymap on_attach
+---lsp buflocal keymap
 ---@param bufnr number
 ---@param maps keymapOpts[]
 local function keymap(bufnr, maps)
@@ -23,6 +23,124 @@ local function keymap(bufnr, maps)
     vim.keymap.set("n", map[1], map[2], { buffer = bufnr, desc = map.desc })
   end
 end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client.name ~= "vtsls" then
+      return
+    end
+
+    keymap(args.buf, {
+      {
+        "gD",
+        function()
+          local params = vim.lsp.util.make_position_params()
+          require("trouble").open({
+            mode = "lsp_command",
+            params = {
+              command = "typescript.goToSourceDefinition",
+              arguments = { params.textDocument.uri, params.position },
+            },
+          })
+        end,
+        desc = "Goto Source Definition",
+      },
+      {
+        "gR",
+        function()
+          require("trouble").open({
+            mode = "lsp_command",
+            params = {
+              command = "typescript.findAllFileReferences",
+              arguments = { vim.uri_from_bufnr(0) },
+            },
+          })
+        end,
+        desc = "File References",
+      },
+      {
+        "<leader>co",
+        action("source.organizeImports"),
+        desc = "Organize Imports",
+      },
+      {
+        "<leader>cM",
+        action("source.addMissingImports.ts"),
+        desc = "Add missing imports",
+      },
+      {
+        "<leader>cu",
+        action("source.removeUnused.ts"),
+        desc = "Remove unused imports",
+      },
+      {
+        "<leader>cD",
+        action("source.fixAll.ts"),
+        desc = "Fix all diagnostics",
+      },
+      {
+        "<leader>cV",
+        function()
+          vim.lsp.buf_request(0, "workspace/executeCommand", {
+            command = "typescript.selectTypeScriptVersion",
+          })
+        end,
+        desc = "Select TS workspace version",
+      },
+    })
+
+    client.commands["_typescript.moveToFileRefactoring"] = function(command, _)
+      ---@type string, string, lsp.Range
+      local _, uri, range = unpack(command.arguments)
+
+      local function move(newf)
+        client:request("workspace/executeCommand", {
+          command = command.command,
+          arguments = { action, uri, range, newf },
+        })
+      end
+
+      local fname = vim.uri_to_fname(uri)
+      client:request("workspace/executeCommand", {
+        command = "typescript.tsserverRequest",
+        arguments = {
+          "getMoveToRefactoringFileSuggestions",
+          {
+            file = fname,
+            startLine = range.start.line + 1,
+            startOffset = range.start.character + 1,
+            endLine = range["end"].line + 1,
+            endOffset = range["end"].character + 1,
+          },
+        },
+      }, function(_, result)
+        ---@type string[]
+        local files = result.body.files
+        table.insert(files, 1, "Enter new path...")
+        vim.ui.select(files, {
+          prompt = "Select move destination:",
+          format_item = function(f)
+            return vim.fn.fnamemodify(f, ":~:.")
+          end,
+        }, function(f)
+          if f and f:find("^Enter new path") then
+            vim.ui.input({
+              prompt = "Enter move destination:",
+              default = vim.fn.fnamemodify(fname, ":h") .. "/",
+              completion = "file",
+            }, function(newf)
+              return newf and move(newf)
+            end)
+          elseif f then
+            move(f)
+          end
+        end)
+      end)
+    end
+  end,
+})
 
 return {
   {
@@ -67,122 +185,13 @@ return {
               },
             },
           },
-          on_attach = function(client, buffer)
-            keymap(buffer, {
-              {
-                "gD",
-                function()
-                  local params = vim.lsp.util.make_position_params()
-                  require("trouble").open({
-                    mode = "lsp_command",
-                    params = {
-                      command = "typescript.goToSourceDefinition",
-                      arguments = { params.textDocument.uri, params.position },
-                    },
-                  })
-                end,
-                desc = "Goto Source Definition",
-              },
-              {
-                "gR",
-                function()
-                  require("trouble").open({
-                    mode = "lsp_command",
-                    params = {
-                      command = "typescript.findAllFileReferences",
-                      arguments = { vim.uri_from_bufnr(0) },
-                    },
-                  })
-                end,
-                desc = "File References",
-              },
-              {
-                "<leader>co",
-                action("source.organizeImports"),
-                desc = "Organize Imports",
-              },
-              {
-                "<leader>cM",
-                action("source.addMissingImports.ts"),
-                desc = "Add missing imports",
-              },
-              {
-                "<leader>cu",
-                action("source.removeUnused.ts"),
-                desc = "Remove unused imports",
-              },
-              {
-                "<leader>cD",
-                action("source.fixAll.ts"),
-                desc = "Fix all diagnostics",
-              },
-              {
-                "<leader>cV",
-                function()
-                  vim.lsp.buf_request(0, "workspace/executeCommand", {
-                    command = "typescript.selectTypeScriptVersion",
-                  })
-                end,
-                desc = "Select TS workspace version",
-              },
-            })
-
-            client.commands["_typescript.moveToFileRefactoring"] = function(command, _)
-              ---@type string, string, lsp.Range
-              local _, uri, range = unpack(command.arguments)
-
-              local function move(newf)
-                client.request("workspace/executeCommand", {
-                  command = command.command,
-                  arguments = { action, uri, range, newf },
-                })
-              end
-
-              local fname = vim.uri_to_fname(uri)
-              client.request("workspace/executeCommand", {
-                command = "typescript.tsserverRequest",
-                arguments = {
-                  "getMoveToRefactoringFileSuggestions",
-                  {
-                    file = fname,
-                    startLine = range.start.line + 1,
-                    startOffset = range.start.character + 1,
-                    endLine = range["end"].line + 1,
-                    endOffset = range["end"].character + 1,
-                  },
-                },
-              }, function(_, result)
-                ---@type string[]
-                local files = result.body.files
-                table.insert(files, 1, "Enter new path...")
-                vim.ui.select(files, {
-                  prompt = "Select move destination:",
-                  format_item = function(f)
-                    return vim.fn.fnamemodify(f, ":~:.")
-                  end,
-                }, function(f)
-                  if f and f:find("^Enter new path") then
-                    vim.ui.input({
-                      prompt = "Enter move destination:",
-                      default = vim.fn.fnamemodify(fname, ":h") .. "/",
-                      completion = "file",
-                    }, function(newf)
-                      return newf and move(newf)
-                    end)
-                  elseif f then
-                    move(f)
-                  end
-                end)
-              end)
-            end
-          end,
         },
       },
       setup = {
         vtsls = function(_, opts)
           -- copy typescript settings to javascript
           opts.settings.javascript =
-              vim.tbl_deep_extend("force", {}, opts.settings.typescript, opts.settings.javascript or {})
+            vim.tbl_deep_extend("force", {}, opts.settings.typescript, opts.settings.javascript or {})
         end,
       },
     },
@@ -208,8 +217,8 @@ return {
         if not vim.uv.fs_stat(dap_debug_server) and not require("lazy.core.config").headless() then
           vim.notify(
             "Mason package path not found for **js-debug-adapter**:\n"
-            .. "- `/js-debug/src/dapDebugServer.js`"
-            .. "You may need to force update the package.",
+              .. "- `/js-debug/src/dapDebugServer.js`"
+              .. "You may need to force update the package.",
             vim.log.levels.WARN
           )
         end

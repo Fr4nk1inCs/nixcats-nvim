@@ -1,3 +1,16 @@
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    if client.name == "ltex" then
+      require("ltex_extra").setup({
+        load_langs = { "en-US", "zh-CN" },
+        path = ".ltex",
+      })
+    end
+  end,
+})
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -10,12 +23,6 @@ return {
     opts = {
       servers = {
         ltex = {
-          on_attach = function(_, bufnr)
-            require("ltex_extra").setup({
-              load_langs = { "en-US", "zh-CN" },
-              path = ".ltex",
-            })
-          end,
           settings = {},
         },
       },

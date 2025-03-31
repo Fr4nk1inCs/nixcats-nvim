@@ -40,6 +40,9 @@ return {
                 semicolon = "Disable",
                 arrayIndex = "Disable",
               },
+              format = {
+                enable = false,
+              },
             },
           },
         },
