@@ -168,13 +168,8 @@
             ## astro
             astro-language-server
           ]
-          ++ lib.optionals pkgs.stdenv.isLinux [
-            xdg-utils
-            wsl-open
-          ]
-          ++ lib.optionals pkgs.stdenv.isDarwin [
-            coreutils-prefixed
-          ];
+          ++ lib.optionals pkgs.stdenv.isLinux [xdg-utils wsl-open]
+          ++ lib.optionals pkgs.stdenv.isDarwin [coreutils-prefixed];
       };
 
       # NOTE: lazy doesnt care if these are in startupPlugins or optionalPlugins
@@ -209,44 +204,42 @@
           cmake-tools-nvim
           # core/protocols
           nvim-lspconfig
-          (nvim-treesitter.withPlugins (
-            plugins:
-              with plugins; [
-                bash
-                c
-                cmake
-                cpp
-                cuda
-                diff
-                html
-                javascript
-                jsdoc
-                json
-                json5
-                jsonc
-                latex
-                lua
-                luadoc
-                luap
-                markdown
-                markdown_inline
-                ninja
-                nix
-                printf
-                python
-                query
-                regex
-                rst
-                toml
-                tsx
-                typescript
-                verilog
-                vim
-                vimdoc
-                xml
-                yaml
-              ]
-          ))
+          (nvim-treesitter.withPlugins (plugins:
+            with plugins; [
+              bash
+              c
+              cmake
+              cpp
+              cuda
+              diff
+              html
+              javascript
+              jsdoc
+              json
+              json5
+              jsonc
+              latex
+              lua
+              luadoc
+              luap
+              markdown
+              markdown_inline
+              ninja
+              nix
+              printf
+              python
+              query
+              regex
+              rst
+              toml
+              tsx
+              typescript
+              verilog
+              vim
+              vimdoc
+              xml
+              yaml
+            ]))
           nvim-treesitter-textobjects
           nvim-ts-autotag
           nvim-treesitter-context
@@ -280,14 +273,12 @@
           vim-wakatime
           obsidian-nvim
           blink-compat
-          (mkNvimPlugin
-            (pkgs.fetchFromGitHub {
-              owner = "keaising";
-              repo = "im-select.nvim";
-              rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
-              hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
-            })
-            "im-select.nvim")
+          (mkNvimPlugin (pkgs.fetchFromGitHub {
+            owner = "keaising";
+            repo = "im-select.nvim";
+            rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
+            hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
+          }) "im-select.nvim")
           # extra/languages
           nvim-dap-python
           nvim-dap-go
@@ -311,27 +302,18 @@
 
       # shared libraries to be added to LD_LIBRARY_PATH
       # variable available to nvim runtime
-      sharedLibraries = {
-        general = [
-        ];
-      };
+      sharedLibraries = {general = [];};
 
       # environmentVariables:
       # this section is for environmentVariables that should be available
       # at RUN TIME for plugins. Will be available to path within neovim terminal
-      environmentVariables = {
-        test = {
-          CATTESTVAR = "It worked!";
-        };
-      };
+      environmentVariables = {test = {CATTESTVAR = "It worked!";};};
 
       # If you know what these are, you can provide custom ones by category here.
       # If you dont, check this link out:
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
       extraWrapperArgs = {
-        test = [
-          ''--set CATTESTVAR2 "It worked again!"''
-        ];
+        test = [''--set CATTESTVAR2 "It worked again!"''];
       };
 
       # lists of the functions you would have passed to
@@ -341,13 +323,9 @@
       # in your lua config via
       # vim.g.python3_host_prog
       # or run from nvim terminal via :!<packagename>-python3
-      extraPython3Packages = {
-        test = [(_: [])];
-      };
+      extraPython3Packages = {test = [(_: [])];};
       # populates $LUA_PATH and $LUA_CPATH
-      extraLuaPackages = {
-        test = [(_: [])];
-      };
+      extraLuaPackages = {test = [(_: [])];};
     };
 
     # And then build a package with specific categories from above here:
@@ -424,8 +402,8 @@
     # In this section, the main thing you will need to do is change the default package name
     # to the name of the packageDefinitions entry you wish to use as the default.
     defaultPackageName = "nvim";
-  in
     # see :help nixCats.flake.outputs.exports
+  in
     forEachSystem (system: let
       # the builder function that makes it all work
       nixCatsBuilder =
@@ -453,8 +431,7 @@
           name = defaultPackageName;
           packages = [defaultPackage];
           inputsFrom = [];
-          shellHook = ''
-          '';
+          shellHook = "";
         };
       };
     })
