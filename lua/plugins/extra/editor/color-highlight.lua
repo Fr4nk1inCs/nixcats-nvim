@@ -4,6 +4,7 @@ return {
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     opts = {
       render = "virtual",
+      exclude_filetypes = { "typst" },
     },
   },
 }
