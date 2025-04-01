@@ -134,7 +134,6 @@
             lynx
             imagemagick
             ghostscript_headless
-            texliveFull
             # extra/languages
             ## cxx
             lldb
@@ -157,7 +156,6 @@
             clippy
             lldb
             ## typst
-            typst
             tinymist
             websocat
             ## typescript
