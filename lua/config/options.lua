@@ -79,6 +79,9 @@ vim.opt.spelloptions:append("noplainbuffer")
 vim.o.exrc = true
 vim.o.modeline = true
 
+if vim.env.SSH_TTY then
+  vim.g.clipboard = "osc52"
+end
 if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
     name = "WslClipboard",
