@@ -1,8 +1,4 @@
 local command = vim.fn.exepath("lldb-dap")
-if command == "" then
-  vim.notify("LLDB is not installed, please install it to use the C/C++ debugger", vim.log.levels.ERROR)
-  return {}
-end
 
 return {
   {
@@ -15,6 +11,14 @@ return {
     --   opts = { ensure_installed = { "lldb" } },
     -- },
     opts = function()
+      if command == "" then
+        vim.notify(
+          "LLDB (lldb-dap) is not installed, please install it to use the C/C++ debugger",
+          vim.log.levels.ERROR,
+          { title = "DAP (CXX/LLDB)" }
+        )
+        return
+      end
       local dap = require("dap")
       if not dap.adapters["lldb"] then
         require("dap").adapters["lldb"] = {
