@@ -323,7 +323,7 @@
       # in your lua config via
       # vim.g.python3_host_prog
       # or run from nvim terminal via :!<packagename>-python3
-      extraPython3Packages = {test = [(_: [])];};
+      python3.libraries = {test = [(_: [])];};
       # populates $LUA_PATH and $LUA_CPATH
       extraLuaPackages = {test = [(_: [])];};
     };
@@ -338,16 +338,17 @@
       # they contain a settings set defined above
       # see :help nixCats.flake.outputs.settings
       settings = {
+        hosts = {
+          python3.enable = true;
+          node.enable = true;
+          ruby.enable = true;
+          perl.enable = true;
+        };
         wrapRc = true;
         # IMPORTANT:
         # your alias may not conflict with your other packages.
         aliases = ["vim" "vi" "v"];
         # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
-
-        withRuby = true;
-        withPython3 = true;
-        withNodeJs = true;
-        withPerl = true;
       };
     in {
       # These are the names of your packages
