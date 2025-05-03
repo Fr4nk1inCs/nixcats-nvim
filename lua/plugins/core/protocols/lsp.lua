@@ -86,19 +86,8 @@ return {
 
       vim.api.nvim_create_autocmd("LspDetach", { command = "setl foldexpr<" })
 
-      local blink = require("blink.cmp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        blink.get_lsp_capabilities(),
-        opts.capabilities or {}
-      )
-
       local function setup(server)
-        local server_opts = vim.tbl_deep_extend("force", {
-          capabilities = vim.deepcopy(capabilities),
-        }, servers[server] or {})
+        local server_opts = servers[server] or {}
         if server_opts.enabled == false then
           return
         end
@@ -112,7 +101,8 @@ return {
             return
           end
         end
-        require("lspconfig")[server].setup(server_opts)
+        vim.lsp.config(server, server_opts)
+        vim.lsp.enable(server)
       end
 
       -- get all the servers that are available through mason-lspconfig
