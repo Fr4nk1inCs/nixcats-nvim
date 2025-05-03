@@ -1,27 +1,9 @@
 local system = Utils.get_system()
 
-local texlab_settings = {
-  build = {
-    executable = "latexmk",
-    args = {
-      "-pdf",
-      -- "-xelatex",
-      "-interaction=nonstopmode",
-      "-synctex=1",
-      "%f",
-    },
-    onSave = true,
-    forwardSearchAfter = system ~= "wsl",
-  },
-  chktex = {
-    onOpenAndSave = true,
-    onEdit = true,
-  },
-  forwardSearch = {},
-}
+local forwardSearch = {}
 
 if system == "mac" then
-  texlab_settings.forwardSearch = {
+  forwardSearch = {
     executable = (nixCats("skim") or "") .. "/Applications/Skim.app/Contents/SharedSupport/displayline",
     args = {
       "-g",
@@ -32,7 +14,7 @@ if system == "mac" then
     },
   }
 elseif system == "wsl" then
-  texlab_settings.forwardSearch = {
+  forwardSearch = {
     executable = "/mnt/c/Users/fushen/AppData/Local/SumatraPDF/SumatraPDF.exe",
     args = {
       "-reuse-instance",
@@ -43,7 +25,7 @@ elseif system == "wsl" then
     },
   }
 elseif system == "linux" then
-  texlab_settings.forwardSearch = {
+  forwardSearch = {
     executable = "zathura",
     args = {
       "--synctex-forward",
@@ -62,7 +44,29 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        texlab = { settings = texlab_settings },
+        texlab = {
+          settings = {
+            texlab = {
+              build = {
+                executable = "latexmk",
+                args = {
+                  "-pdf",
+                  -- "-xelatex",
+                  "-interaction=nonstopmode",
+                  "-synctex=1",
+                  "%f",
+                },
+                onSave = true,
+                forwardSearchAfter = system ~= "wsl",
+              },
+              chktex = {
+                onOpenAndSave = true,
+                onEdit = true,
+              },
+              forwardSearch = forwardSearch,
+            },
+          },
+        },
       },
     },
   },
