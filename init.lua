@@ -40,3 +40,7 @@ require("nixCatsUtils.lazyCat").setup(nixCats.pawsible({ "allPlugins", "start", 
 
 require("config.format")
 require("config.keymaps")
+
+if vim.g.neovide then
+  require("config.neovide")
+end
