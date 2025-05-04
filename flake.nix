@@ -372,7 +372,7 @@
             highlight_css = toString ./assets/highlight.css;
           }
           // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
-            skim = toString pkgs.skim;
+            skim = toString pkgs.skimpdf;
           };
         extra = {};
       };
