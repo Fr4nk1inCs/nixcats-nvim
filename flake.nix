@@ -198,6 +198,7 @@
           yazi-nvim
           gitsigns-nvim
           undotree
+          nvim-early-retirement
           # core/languages
           lazydev-nvim
           clangd_extensions-nvim
