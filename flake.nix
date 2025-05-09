@@ -14,7 +14,7 @@
     # see :help nixCats.flake.inputs
     # If you want your plugin to be loaded by the standard overlay,
     # i.e. if it wasnt on nixpkgs, but doesnt have an extra build step.
-    # Then you should name it "plugins-something"
+    # Then you should name it "plugins-something".
     # If you wish to define a custom build step not handled by nixpkgs,
     # then you should name it in a different format, and deal with that in the
     # overlay defined for custom builds in the overlays directory.
@@ -386,7 +386,7 @@
         extra = {};
       };
       # an extra test package with normal lua reload for fast edits
-      # nix doesnt provide the config in this package, allowing you free reign to edit it.
+      # nix doesnt provide the config in this package, allowing you free rein to edit it.
       # then you can swap back to the normal pure package when done.
       testnvim = _: {
         settings = {
