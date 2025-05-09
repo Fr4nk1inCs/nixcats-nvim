@@ -144,10 +144,10 @@
             gofumpt
             gomodifytags
             impl
+            ## harper
+            harper
             ## latex
             texlab
-            ## ltex
-            ltex-ls
             ## markdown
             marksman
             markdownlint-cli2
@@ -283,7 +283,6 @@
           # extra/languages
           nvim-dap-python
           nvim-dap-go
-          ltex_extra-nvim
           markdown-preview-nvim
           render-markdown-nvim
           rustaceanvim
