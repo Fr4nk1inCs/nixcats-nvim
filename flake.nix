@@ -199,6 +199,7 @@
           gitsigns-nvim
           undotree
           nvim-early-retirement
+          hardtime-nvim
           # core/languages
           lazydev-nvim
           clangd_extensions-nvim
