@@ -4,7 +4,7 @@ return {
     "nvimtools/none-ls.nvim",
     dependencies = {
       {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         opts = { ensure_installed = { "prettier" } },
       },
     },

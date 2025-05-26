@@ -109,7 +109,7 @@ return {
       local have_mason, mlsp = pcall(require, "mason-lspconfig")
       local all_mslp_servers = {}
       if have_mason then
-        all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+        all_mslp_servers = mlsp.get_available_servers()
       end
 
       local ensure_installed = {} ---@type string[]
@@ -146,7 +146,7 @@ return {
   {
     "mason.nvim",
     dependencies = {
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason-lspconfig.nvim",
       enabled = require("nixCatsUtils").lazyAdd(true, false),
       config = function() end,
     },
