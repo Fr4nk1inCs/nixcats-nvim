@@ -261,7 +261,6 @@
           nvim-nio
           nvim-treesitter.withAllGrammars
           # extra/coding
-          dressing-nvim
           avante-nvim
           # extra/debug
           nvim-dap
