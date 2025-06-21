@@ -96,7 +96,6 @@
           fzf
           lazygit
           ripgrep
-          llvmPackages.clangWithLibcAndBasicRtAndLibcxx
           universal-ctags
           # core/editor
           yazi
