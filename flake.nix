@@ -245,7 +245,7 @@
           nvim-treesitter-context
           (none-ls-nvim.overrideAttrs {name = "null-ls";})
           # core/ui
-          bufferline-nvim
+          incline-nvim
           nightfox-nvim
           smartcolumn-nvim
           mini-icons

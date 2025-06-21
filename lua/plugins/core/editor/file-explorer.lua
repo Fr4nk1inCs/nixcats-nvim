@@ -69,12 +69,11 @@ return {
           { source = "git_status", display_name = " Git" },
           { source = "document_symbols", display_name = " Symbols" },
         },
-
-        highlight_tab = "BufferLineBuffer",
-        highlight_tab_active = "NeoTreeNormal",
-        highlight_background = "BufferLineBuffer",
-        highlight_separator = "BufferLineSeparator",
-        highlight_separator_active = "BufferLineSeparator",
+        highlight_tab = "BufferInactive",
+        highlight_tab_active = "BufferVisible",
+        highlight_background = "BufferInactive",
+        highlight_separator = "BufferVisible",
+        highlight_separator_active = "BufferVisible",
       },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       filesystem = {
