@@ -10,10 +10,15 @@ return {
     optional = true,
     dependencies = {
       "mfussenegger/nvim-dap-python",
-      -- stylua: ignore
+      dependencies = {
+        {
+          "mason-org/mason.nvim",
+          opts = { ensure_installed = { "debugpy" } },
+        },
+      },
       keys = {
         { "<leader>dPt", dap_python("test_method"), desc = "Debug Method", ft = "python" },
-        { "<leader>dPc", dap_python("test_class"),  desc = "Debug Class",  ft = "python" },
+        { "<leader>dPc", dap_python("test_class"), desc = "Debug Class", ft = "python" },
       },
       config = function()
         local python = nixCats("debugpy_python")
@@ -32,18 +37,6 @@ return {
         end
         require("dap-python").setup(python)
       end,
-    },
-  },
-  {
-    "mason-org/mason.nvim",
-    opts = { ensure_installed = { "debugpy" } },
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    opts = {
-      handlers = {
-        python = function() end,
-      },
     },
   },
 }

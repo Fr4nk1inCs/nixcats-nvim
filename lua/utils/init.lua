@@ -40,7 +40,7 @@ M.is_loaded = function(name)
 end
 
 ---get the system kernel type
----@return "mac" | "wsl" | "linux"
+---@return "mac" | "wsl" | "linux" | "unknown"
 M.get_system = function()
   if vim.fn.has("mac") == 1 then
     return "mac"
@@ -49,6 +49,7 @@ M.get_system = function()
   elseif vim.fn.has("linux") == 1 then
     return "linux"
   end
+  return "unknown"
 end
 
 M.terminal = {
@@ -59,5 +60,7 @@ M.terminal = {
 
 M.lualine = require("utils.lualine")
 M.root = require("utils.root")
+M.lang = require("utils.lang")
 
+_G.Utils = M
 return M

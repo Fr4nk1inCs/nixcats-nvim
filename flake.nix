@@ -135,8 +135,6 @@
             imagemagick
             ghostscript_headless
             # extra/languages
-            ## cxx
-            lldb
             ## go
             delve
             gotools
@@ -154,7 +152,6 @@
             ## rust
             rust-analyzer
             clippy
-            lldb
             ## typst
             tinymist
             websocat
@@ -204,6 +201,7 @@
           lazydev-nvim
           clangd_extensions-nvim
           cmake-tools-nvim
+          SchemaStore-nvim
           # core/protocols
           nvim-lspconfig
           (nvim-treesitter.withPlugins (plugins:
@@ -289,7 +287,6 @@
           crates-nvim
           typst-vim
           typst-preview-nvim
-          SchemaStore-nvim
         ];
       };
 
@@ -366,6 +363,7 @@
             debugpy_python = with pkgs;
               lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
             js_debug_server = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/src/dapDebugServer.js";
+            codelldb = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
             astro_ts_plugin = "${pkgs.astro-language-server}/lib/astro-language-server/packages/ts-plugin";
 
             markdown_css = toString ./assets/terminal.css;

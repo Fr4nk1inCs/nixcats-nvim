@@ -1,9 +1,3 @@
-_G.Utils = require("utils")
-
-require("config.after")
-require("config.autocmds")
-require("config.options")
-
 -- NOTE: this just gives nixCats global command a default value
 -- so that it doesnt throw an error if you didnt install via nix.
 -- usage of both this setup and the nixCats command is optional,
@@ -11,6 +5,12 @@ require("config.options")
 require("nixCatsUtils").setup({
   non_nix_value = true,
 })
+
+require("utils")
+require("config.languages")
+require("config.after")
+require("config.autocmds")
+require("config.options")
 
 -- NOTE: You might want to move the lazy-lock.json file
 local function get_lockfile_path()
@@ -38,7 +38,7 @@ require("nixCatsUtils.lazyCat").setup(nixCats.pawsible({ "allPlugins", "start", 
   { import = "plugins.extra" },
 }, lazyOptions)
 
-require("config.format")
+require("config.lsp")
 require("config.keymaps")
 
 if vim.g.neovide then
