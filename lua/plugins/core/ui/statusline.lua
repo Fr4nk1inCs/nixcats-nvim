@@ -38,15 +38,6 @@ return {
 
           lualine_c = {
             utils.root_dir(),
-            {
-              "diagnostics",
-              symbols = {
-                error = " ",
-                warn = " ",
-                hint = " ",
-                info = " ",
-              },
-            },
             { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
             { utils.pretty_path() },
           },
@@ -75,24 +66,6 @@ return {
               require("lazy.status").updates,
               cond = require("lazy.status").has_updates,
               color = function() return { fg = Snacks.util.color("Special") } end,
-            },
-            {
-              "diff",
-              symbols = {
-                added = " ",
-                modified = " ",
-                removed = " ",
-              },
-              source = function()
-                local gitsigns = vim.b.gitsigns_status_dict
-                if gitsigns then
-                  return {
-                    added = gitsigns.added,
-                    modified = gitsigns.changed,
-                    removed = gitsigns.removed,
-                  }
-                end
-              end,
             },
           },
           lualine_y = {
