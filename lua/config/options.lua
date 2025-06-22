@@ -80,7 +80,23 @@ vim.o.exrc = true
 vim.o.modeline = true
 
 if vim.env.SSH_TTY then
-  vim.g.clipboard = "osc52"
+  if vim.env.TMUX ~= nil then
+    local paste = { "bash", "-c", "tmux refresh-client -l && sleep 0.05 && tmux save-buffer -" }
+    vim.g.clipboard = {
+      name = "TmuxRemoteClipboard",
+      copy = {
+        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+      },
+      paste = {
+        ["+"] = paste,
+        ["*"] = paste,
+      },
+      cache_enabled = 0,
+    }
+  else
+    vim.g.clipboard = "osc52"
+  end
 end
 if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
