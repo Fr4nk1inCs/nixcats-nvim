@@ -269,7 +269,16 @@
           codesnap-nvim
           # extra/external
           vim-wakatime
-          obsidian-nvim
+          (obsidian-nvim.overrideAttrs {
+            # FIXME: remove once upstream updates
+            version = "2025-06-23";
+            src = pkgs.fetchFromGitHub {
+              owner = "obsidian-nvim";
+              repo = "obsidian.nvim";
+              rev = "72412210d21c02351b9018f15be1a0bd0858b125";
+              sha256 = "sha256-NQ6r0Eyd2NPjgFqGfMLzKuBhVvVOHVdC8AlFTWEXprA=";
+            };
+          })
           blink-compat
           (mkNvimPlugin (pkgs.fetchFromGitHub {
             owner = "keaising";
