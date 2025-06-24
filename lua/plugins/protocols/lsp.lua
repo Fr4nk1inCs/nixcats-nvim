@@ -27,6 +27,7 @@ return {
     opts = {
       PATH = "append",
       ensure_installed = LangSettings.mason,
+      github = { download_url_template = "https://ghfast.top/https://github.com/%s/releases/download/%s/%s" },
     },
     config = function(_, opts)
       local ensure_installed = opts.ensure_installed or {}

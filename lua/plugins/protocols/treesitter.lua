@@ -57,6 +57,9 @@ return {
     event = "VeryLazy",
     enabled = true,
     config = function()
+      for _, config in pairs(require("nvim-treesitter.parsers").get_parser_configs()) do
+        config.install_info.url = config.install_info.url:gsub("https://github.com/", "https://ghfast.top/https://github.com/")
+      end
       -- If treesitter is already loaded, we need to run config again for textobjects
       if Utils.is_loaded("nvim-treesitter") then
         local opts = Utils.opts("nvim-treesitter")
