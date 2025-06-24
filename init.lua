@@ -24,6 +24,7 @@ local lazyOptions = {
   lockfile = get_lockfile_path(),
   install = { colorscheme = { "nordfox" } },
   ui = { border = "rounded" },
+  git = { url_format = "https://ghfast.top/https://github.com/%s.git" },
 }
 
 -- NOTE: this the lazy wrapper. Use it like require('lazy').setup() but with an extra
