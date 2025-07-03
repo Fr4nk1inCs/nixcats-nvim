@@ -19,7 +19,13 @@ jobs:
         id: pull
         uses: tretuna/sync-branches@1.4.0
         with:
-          GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           FROM_BRANCH: "master"
           TO_BRANCH: "github-proxy"
-          PULL_REQUEST_AUTO_MERGE_METHOD: "rebase"
+      - name: Merging pull request
+        uses: "pascalgn/automerge-action@v0.16.4"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+          MERGE_METHOD: "rebase"
+          MERGE_LABELS: ""
+          PULL_REQUEST: ${{ steps.pull.outputs.PULL_REQUEST_NUMBER }}
