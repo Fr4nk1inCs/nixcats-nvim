@@ -84,7 +84,7 @@ local core = {
     lsp = "neocmake",
     linter = "cmake_lint",
     treesitter = "cmake",
-    mason = { "neocmakelsp", "cmakelint" },
+    mason = { "neocmakelsp", "cmakelang" },
     plugin = {
       {
         "Civitasv/cmake-tools.nvim",
