@@ -233,7 +233,7 @@
               toml
               tsx
               typescript
-              verilog
+              systemverilog
               vim
               vimdoc
               xml
