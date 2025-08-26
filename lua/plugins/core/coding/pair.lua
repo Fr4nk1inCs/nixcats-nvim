@@ -1,27 +1,5 @@
 return {
   {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    opts = {
-      fast_wrap = {},
-    },
-    config = function(_, opts)
-      local autopairs = require("nvim-autopairs")
-      autopairs.setup(opts)
-
-      local rule = require("nvim-autopairs.rule")
-      local cond = require("nvim-autopairs.conds")
-
-      autopairs.add_rules({
-        rule("$$", "$$", "tex"):with_pair(cond.not_after_regex("%%")),
-        rule("$", "$", { "tex", "latex" }):with_pair(cond.not_after_regex("%%")):with_move(cond.none()),
-        rule("$", "$", "typst"),
-        rule("```", "```", "markdown"),
-        rule("'", "'"):with_pair(cond.not_filetypes({ "rust", "vim" })),
-      })
-    end,
-  },
-  {
     "abecodes/tabout.nvim",
     event = "InsertCharPre", -- Set the event to 'InsertCharPre' for better compatibility
     dependencies = {
@@ -43,26 +21,18 @@ return {
     },
   },
   {
-    "HiPhish/rainbow-delimiters.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter",
-        opts = {
-          ensure_installed = { "lua", "latex", "verilog" },
-        },
+    "saghen/blink.pairs",
+    version = require("nixCatsUtils").lazyAdd("*"),
+    dependencies = require("nixCatsUtils").lazyAdd("saghen/blink.download"),
+    opts = {
+      mappings = {
+        enabled = true,
       },
-    },
-    config = function()
-      vim.g.rainbow_delimiters = {
-        query = {
-          [""] = "rainbow-delimiters",
-          lua = "rainbow-blocks",
-          latex = "rainbow-blocks",
-          verilog = "rainbow-blocks",
-          query = "rainbow-blocks",
-        },
-        highlight = {
+      highlights = {
+        enabled = true,
+        -- requires require('vim._extui').enable({}), otherwise has no effect
+        -- cmdline = false,
+        groups = {
           "TSRainbowRed",
           "TSRainbowYellow",
           "TSRainbowBlue",
@@ -71,7 +41,8 @@ return {
           "TSRainbowViolet",
           "TSRainbowCyan",
         },
-      }
-    end,
+        matchparen = { enabled = true, group = "MatchParen" },
+      },
+    },
   },
 }

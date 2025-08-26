@@ -180,9 +180,8 @@
           ts-comments-nvim
           blink-cmp
           colorful-menu-nvim
-          nvim-autopairs
+          blink-pairs
           tabout-nvim
-          rainbow-delimiters-nvim
           copilot-lua
           # core/editor
           trouble-nvim
@@ -252,6 +251,12 @@
           noice-nvim
           lualine-nvim
           persistence-nvim
+          (mkNvimPlugin (pkgs.fetchFromGitHub {
+            owner = "Saghen";
+            repo = "blink.indent";
+            rev = "fcc03b8ae171e363b3853d1002cd156270f6e5ac";
+            hash = "sha256-a9pkJ/1I9wCTl/qJHG4dr3RvBmLZAaVmtP7GyCQUu3U=";
+          }) "blink.indent")
         ];
 
         extra = [
@@ -269,16 +274,7 @@
           codesnap-nvim
           # extra/external
           vim-wakatime
-          (obsidian-nvim.overrideAttrs {
-            # FIXME: remove once upstream updates
-            version = "2025-06-23";
-            src = pkgs.fetchFromGitHub {
-              owner = "obsidian-nvim";
-              repo = "obsidian.nvim";
-              rev = "72412210d21c02351b9018f15be1a0bd0858b125";
-              sha256 = "sha256-NQ6r0Eyd2NPjgFqGfMLzKuBhVvVOHVdC8AlFTWEXprA=";
-            };
-          })
+          obsidian-nvim
           blink-compat
           (mkNvimPlugin (pkgs.fetchFromGitHub {
             owner = "keaising";
