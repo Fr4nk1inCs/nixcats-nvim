@@ -3,11 +3,21 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    ---@module "avante"
+    ---@type avante.Config
     opts = {
+      windows = {
+        position = "smart",
+      },
+      mappings = {
+        sidebar = {
+          close_from_input = { normal = "q", insert = "<c-d>" },
+        },
+      },
       provider = "copilot",
       providers = {
         copilot = {
-          model = "claude-3.7-sonnet-thought",
+          model = "claude-sonnet-4",
         },
       },
       input = {
@@ -34,5 +44,24 @@ return {
       },
       "folke/snacks.nvim",
     },
+    -- FIXME: This is a temporary fix for the horizontal layout issue.
+    config = function(_, opts)
+      require("avante").setup(opts)
+
+      local open_sidebar = require("avante.sidebar").open
+      require("avante.sidebar").open = function(self, open_opts)
+        open_sidebar(self, open_opts)
+
+        if self:get_layout() == "horizontal" then
+          if self.containers.input ~= nil then
+            self.containers.input:update_layout({
+              size = {
+                width = "40%",
+              },
+            })
+          end
+        end
+      end
+    end,
   },
 }
