@@ -10,22 +10,18 @@ jobs:
     name: Syncing branches
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node
-        uses: actions/setup-node@v1
+        uses: actions/checkout@v5
         with:
-          node-version: 12
-      - name: Opening pull request
-        id: pull
-        uses: tretuna/sync-branches@1.4.0
+          fetch-depth: 0
+          ref: github-proxy
+      - name: Synchronize
+        run: |
+          git config user.email "fushen@mail.ustc.edu.cn" && \
+          git config user.name "Fr4nk1in" && \
+          git rebase origin/master
+      - name: Push
+        uses: ad-m/github-push-action@master
         with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          FROM_BRANCH: "master"
-          TO_BRANCH: "github-proxy"
-      - name: Merging pull request
-        uses: "pascalgn/automerge-action@v0.16.4"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
-          MERGE_METHOD: "rebase"
-          MERGE_LABELS: ""
-          PULL_REQUEST: ${{ steps.pull.outputs.PULL_REQUEST_NUMBER }}
+          github_token: ${{ secrets.GH_TOKEN }}
+          branch: github-proxy
+          force_with_lease: true
