@@ -16,4 +16,16 @@ return {
       },
     },
   },
+  {
+    "HakonHarnes/img-clip.nvim",
+    cmd = { "PasteImage" },
+    opts = {},
+    keys = {
+      {
+        "<leader>p",
+        "<cmd>PasteImage<cr>",
+        desc = "Paste image from system clipboard",
+      },
+    },
+  },
 }

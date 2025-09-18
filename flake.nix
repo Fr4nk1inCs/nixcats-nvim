@@ -164,8 +164,14 @@
             ## astro
             astro-language-server
           ]
-          ++ lib.optionals pkgs.stdenv.isLinux [xdg-utils wsl-open]
-          ++ lib.optionals pkgs.stdenv.isDarwin [coreutils-prefixed];
+          ++ lib.optionals pkgs.stdenv.isLinux [
+            xdg-utils
+            wsl-open
+          ]
+          ++ lib.optionals pkgs.stdenv.isDarwin [
+            coreutils-prefixed
+            pngpaste
+          ];
       };
 
       # NOTE: lazy doesnt care if these are in startupPlugins or optionalPlugins
@@ -272,6 +278,7 @@
           grug-far-nvim
           nvim-highlight-colors
           codesnap-nvim
+          img-clip-nvim
           # extra/external
           vim-wakatime
           obsidian-nvim
