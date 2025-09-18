@@ -85,6 +85,7 @@ return {
       {
         "gD",
         function()
+          ---@diagnostic disable-next-line: missing-parameter
           local params = vim.lsp.util.make_position_params()
           require("trouble").open({
             mode = "lsp_command",
@@ -180,7 +181,9 @@ return {
               default = vim.fn.fnamemodify(fname, ":h") .. "/",
               completion = "file",
             }, function(newf)
-              return newf and move(newf)
+              if newf then
+                move(newf)
+              end
             end)
           elseif f then
             move(f)
