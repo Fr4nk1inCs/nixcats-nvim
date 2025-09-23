@@ -34,7 +34,7 @@ return {
     version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
     events = trigger_events,
-    cmd = { "ObsidianWorkspace" },
+    cmd = { "Obsidian" },
     dependencies = {
       "nvim-lua/plenary.nvim",
       "ibhagwan/fzf-lua",
