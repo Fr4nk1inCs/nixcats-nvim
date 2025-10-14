@@ -12,7 +12,7 @@ _: _inputs: let
             prePnpmInstall
             ;
           fetcherVersion = 1;
-          hash = "sha256-Cx8DVy6pIZ+F4kFHWGb6s5dyzTc4lGsvh1vRx75WolI=";
+          hash = "sha256-QMFtUCuH9g/5ywa1OdIWjH2Dldwzeuzuj5GDp8yA+og=";
         };
         pnpmWorkspaces = oldAttrs.pnpmWorkspaces ++ ["@astrojs/ts-plugin..."];
 
