@@ -1,5 +1,12 @@
 return {
   {
-    "mbbill/undotree",
+    "XXiaoA/atone.nvim",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    cmd = "Atone",
+    opts = {
+      layout = {
+        direction = "right",
+      },
+    },
   },
 }

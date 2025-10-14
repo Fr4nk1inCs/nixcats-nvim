@@ -198,9 +198,14 @@
           flash-nvim
           yazi-nvim
           gitsigns-nvim
-          undotree
           nvim-early-retirement
           hardtime-nvim
+          (mkNvimPlugin (pkgs.fetchFromGitHub {
+            owner = "XXiaoA";
+            repo = "atone.nvim";
+            rev = "a12c31afaf59d47004e959553a0f6ae480599d83";
+            hash = "sha256-jCMJB7jdkJ6lNR4XTf5WBg2uAS6GnN1ESrhlf/z9rd8=";
+          }) "atone.nvim")
           # core/languages
           lazydev-nvim
           clangd_extensions-nvim
