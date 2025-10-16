@@ -46,7 +46,7 @@ map("n", "<leader>bD", "<cmd>:bd<cr>", { desc = "Delete buffer and window" })
 
 -- clear search and stop snippets on escape
 map({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd([[noh]])
+  vim.cmd.nohlsearch()
   if vim.snippet then
     vim.snippet.stop()
   end
