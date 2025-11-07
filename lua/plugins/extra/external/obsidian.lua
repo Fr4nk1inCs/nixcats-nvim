@@ -38,40 +38,7 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "ibhagwan/fzf-lua",
-      {
-        "saghen/blink.cmp",
-        dependencies = {
-          {
-            "saghen/blink.compat",
-            version = "*",
-            lazy = true,
-            opts = {},
-          },
-        },
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
-        opts = {
-          sources = {
-            per_filetype = {
-              markdown = { "obsidian", "obsidian_new", "obsidian_tags" },
-            },
-            providers = {
-              obsidian = {
-                name = "obsidian",
-                module = "blink.compat.source",
-              },
-              obsidian_new = {
-                name = "obsidian_new",
-                module = "blink.compat.source",
-              },
-              obsidian_tags = {
-                name = "obsidian_tags",
-                module = "blink.compat.source",
-              },
-            },
-          },
-        },
-      },
+      "saghen/blink.cmp",
     },
     opts = {
       workspaces = workspaces,
