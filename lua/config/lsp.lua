@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       end
       vim.keymap.set(
         "i",
-        "<c-a>",
+        "<c-.>",
         vim.lsp.inline_completion.select,
         { desc = "LSP: switch inline completion", buffer = bufnr }
       )
