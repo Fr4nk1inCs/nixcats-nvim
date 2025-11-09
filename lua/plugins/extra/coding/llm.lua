@@ -2,36 +2,43 @@
 ---@type LazyPluginSpec[]
 return {
   {
-    "yetone/avante.nvim",
+    "olimorris/codecompanion.nvim",
     event = "VeryLazy",
-    version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-    ---@module "avante"
-    ---@type avante.Config
+    cmd = { "CodeCompanion" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "franco-ruggeri/codecompanion-spinner.nvim",
+      "ravitemer/codecompanion-history.nvim",
+    },
+    opts = {
+      adapter = {
+        acp = {
+          gemini_cli = function()
+            return require("codecompanion.adapters").extend(
+              "gemini_cli",
+              { defaults = { auth_method = "oauth-personal" } }
+            )
+          end,
+        },
+      },
+      strategies = {
+        chat = { adapter = "copilot" },
+        inline = { adapter = "copilot" },
+        cmd = { adapter = "copilot" },
+      },
+      extensions = {
+        spinner = {},
+        history = { enabled = true },
+      },
+    },
+  },
+  {
     "folke/sidekick.nvim",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     cmd = { "Sidekick" },
     ---@module "sidekick"
     ---@type sidekick.Config
     opts = {
-      windows = {
-        position = "smart",
-      },
-      mappings = {
-        sidebar = {
-          close_from_input = { normal = "q", insert = "<c-d>" },
-        },
-      },
-      provider = "copilot",
-      providers = {
-        copilot = {
-          model = "claude-sonnet-4",
-        },
-      },
-      input = {
-        provider = "snacks",
-        provider_opts = {
-          title = "Avante Input",
-          icon = " ",
       keymap = {
         ["<c-a>"] = {
           function()
@@ -42,20 +49,8 @@ return {
         },
       },
     },
-    build = require("nixCatsUtils").lazyAdd("make", nil),
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "ibhagwan/fzf-lua",
-      "echasnovski/mini.icons",
-      "zbirenbaum/copilot.lua",
     keys = {
       {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
         "<c-a>",
         function()
           if not require("sidekick").nes_jump_or_apply() then
@@ -65,15 +60,7 @@ return {
         expr = true,
         desc = "Goto/Apply next edit suggestion",
       },
-      "folke/snacks.nvim",
     },
-    -- FIXME: This is a temporary fix for the horizontal layout issue.
-    config = function(_, opts)
-      require("avante").setup(opts)
-
-      local open_sidebar = require("avante.sidebar").open
-      require("avante.sidebar").open = function(self, open_opts)
-        open_sidebar(self, open_opts)
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -81,13 +68,6 @@ return {
       opts.sections = opts.sections or {}
       opts.sections.lualine_x = opts.sections.lualine_x or {}
 
-        if self:get_layout() == "horizontal" then
-          if self.containers.input ~= nil then
-            self.containers.input:update_layout({
-              size = {
-                width = "40%",
-              },
-            })
       -- Copilot status
       table.insert(
         opts.sections.lualine_x,
@@ -97,8 +77,6 @@ return {
           if status == nil then
             return nil
           end
-        end
-      end
           if status.busy then
             return "pending"
           end

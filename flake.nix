@@ -280,7 +280,9 @@
           nvim-treesitter.withAllGrammars
           # extra/coding
           sidekick-nvim
-          avante-nvim
+          codecompanion-nvim
+          codecompanion-history-nvim
+          codecompanion-spinner-nvim
           # extra/debug
           nvim-dap
           nvim-dap-ui
