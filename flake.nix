@@ -135,6 +135,9 @@
             lynx
             imagemagick
             ghostscript_headless
+            # extra/coding/llm
+            copilot-cli
+            gemini-cli
             # extra/languages
             ## go
             delve
@@ -276,6 +279,7 @@
           nvim-nio
           nvim-treesitter.withAllGrammars
           # extra/coding
+          sidekick-nvim
           avante-nvim
           # extra/debug
           nvim-dap

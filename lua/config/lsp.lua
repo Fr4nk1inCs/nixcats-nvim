@@ -39,17 +39,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
       vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+      -- Only enable accept inline completion keymap when sidekick is not available
+      if not pcall(require, "sidekick") then
+        vim.keymap.set(
+          "i",
+          "<c-a>",
+          vim.lsp.inline_completion.get,
+          { desc = "LSP: accept inline completion", buffer = bufnr }
+        )
+      end
       vim.keymap.set(
         "i",
         "<c-a>",
-        vim.lsp.inline_completion.get,
-        { desc = "LSP: accept inline completion", buffer = bufnr }
-      )
-      vim.keymap.set(
-        "i",
-        "<c-a>",
-        vim.lsp.inline_completion.get,
-        { desc = "LSP: accept inline completion", buffer = bufnr }
+        vim.lsp.inline_completion.select,
+        { desc = "LSP: switch inline completion", buffer = bufnr }
       )
     end
   end,
