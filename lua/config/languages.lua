@@ -129,6 +129,11 @@ local core = {
     formatter = { "black", "isort" },
     mason = { "basedpyright", "ruff", "black", "isort" },
   },
+  copilot = {
+    lsp = "copilot",
+    mason = { "copilot-language-server" },
+    treesitter = {},
+  },
 }
 if vim.fn.executable("nix") == 1 then
   core.nix = {

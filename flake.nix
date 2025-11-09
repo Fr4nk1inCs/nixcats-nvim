@@ -37,7 +37,7 @@
     # will not apply to module imports
     # as that will have your system values
     extra_pkg_config = {
-      # allowUnfree = true;
+      allowUnfree = true;
     };
     # management of the system variable is one of the harder parts of using flakes.
 
@@ -125,6 +125,8 @@
           bash-language-server
           shfmt
           shellharden
+          ## copilot
+          copilot-language-server
         ];
 
         extra =
