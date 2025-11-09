@@ -136,9 +136,6 @@
             lynx
             imagemagick
             ghostscript_headless
-            # extra/coding/llm
-            copilot-cli
-            gemini-cli
             # extra/languages
             ## go
             delve
