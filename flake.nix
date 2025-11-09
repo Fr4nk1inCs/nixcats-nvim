@@ -7,9 +7,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
 
-    # neovim-nightly-overlay = {
-    #   url = "github:nix-community/neovim-nightly-overlay";
-    # };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+    };
 
     # see :help nixCats.flake.inputs
     # If you want your plugin to be loaded by the standard overlay,
@@ -367,7 +367,11 @@
       # These are the names of your packages
       # you can include as many as you wish.
       nvim = {pkgs, ...}: {
-        inherit settings;
+        settings =
+          settings
+          // {
+            neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
+          };
         # and a set of categories that you want
         # (and other information to pass to lua)
         categories =
@@ -390,8 +394,13 @@
           };
         extra = {};
       };
-      minivim = _: {
-        settings = settings // {aliases = ["nvim" "vim" "vi" "v"];};
+      minivim = {pkgs, ...}: {
+        settings =
+          settings
+          // {
+            neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
+            aliases = ["nvim" "vim" "vi" "v"];
+          };
         categories = {
           general = true;
           extra = false;
