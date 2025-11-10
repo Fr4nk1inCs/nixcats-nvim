@@ -70,6 +70,7 @@ vim.diagnostic.config({
   },
   underline = true,
   update_in_insert = false,
+  --- This config is also used in lua/config/keymaps.lua for diagnostic keymaps
   virtual_text = { source = "if_many", spacing = 4 },
 })
 

@@ -87,6 +87,31 @@ map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 
 -- Diagnostics
+
+--- Open current line diagnostics with virtual lines
+local function open_virtual_lines()
+  vim.diagnostic.config({ virtual_lines = { current_line = true }, virtual_text = { current_line = false } })
+
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    desc = "Recover virtual text on cursor move",
+    group = vim.api.nvim_create_augroup("line-diag", { clear = true }),
+    once = true,
+    callback = function(_)
+      -- check lua/config/lsp.lua for initial config
+      vim.diagnostic.config({
+        virtual_lines = false,
+        virtual_text = {
+          source = "if_many",
+          spacing = 4,
+          current_line = nil,
+        },
+      })
+      return true
+    end,
+  })
+end
+
+--- Jump with virtual lines
 ---@param count integer
 ---@param severity string?
 ---@return fun(nil):nil
@@ -95,11 +120,15 @@ local function jump(count, severity)
     vim.diagnostic.jump({
       count = count,
       severity = severity and vim.diagnostic.severity[severity] or nil,
+      on_jump = function(_, _)
+        open_virtual_lines()
+      end,
     })
   end
 end
 
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "<leader>cd", open_virtual_lines, { desc = "Line Diagnostics (virtual lines)" })
+map("n", "<leader>fd", vim.diagnostic.open_float, { desc = "Line Diagnostics (float)" })
 map("n", "]d", jump(1), { desc = "Next diagnostics" })
 map("n", "[d", jump(-1), { desc = "Previous diagnostics" })
 map("n", "]e", jump(1, "ERROR"), { desc = "Next error" })
