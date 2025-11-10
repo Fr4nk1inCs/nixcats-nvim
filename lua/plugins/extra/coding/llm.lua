@@ -38,25 +38,23 @@ return {
     cmd = { "Sidekick" },
     ---@module "sidekick"
     ---@type sidekick.Config
-    opts = {
-      keymap = {
-        ["<c-a>"] = {
-          function()
-            return require("sidekick").nes_jump_or_apply()
-          end,
-          vim.lsp.inline_completion.get,
-          "fallback",
-        },
-      },
-    },
+    opts = {},
     keys = {
       {
         "<c-a>",
         function()
-          if not require("sidekick").nes_jump_or_apply() then
+          require("sidekick").nes_jump_or_apply()
+        end,
+        desc = "Goto/Apply next edit suggestion",
+      },
+      {
+        "<c-a>",
+        function()
+          if require("sidekick").nes_jump_or_apply() then
             return "<c-a>"
           end
         end,
+        mode = "i",
         expr = true,
         desc = "Goto/Apply next edit suggestion",
       },
