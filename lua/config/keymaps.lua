@@ -87,27 +87,25 @@ map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 
 -- Diagnostics
-local function diag_next(severity)
-  severity = severity and vim.diagnostic.severity[severity] or nil
+---@param count integer
+---@param severity string?
+---@return fun(nil):nil
+local function jump(count, severity)
   return function()
-    vim.diagnostic.goto_next({ severity = severity })
-  end
-end
-
-local function diag_prev(severity)
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    vim.diagnostic.goto_prev({ severity = severity })
+    vim.diagnostic.jump({
+      count = count,
+      severity = severity and vim.diagnostic.severity[severity] or nil,
+    })
   end
 end
 
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "]d", diag_next(), { desc = "Next diagnostics" })
-map("n", "[d", diag_prev(), { desc = "Previous diagnostics" })
-map("n", "]e", diag_next("ERROR"), { desc = "Next error" })
-map("n", "[e", diag_prev("ERROR"), { desc = "Previous error" })
-map("n", "]w", diag_next("WARN"), { desc = "Next warning" })
-map("n", "[w", diag_prev("WARN"), { desc = "Previous warning" })
+map("n", "]d", jump(1), { desc = "Next diagnostics" })
+map("n", "[d", jump(-1), { desc = "Previous diagnostics" })
+map("n", "]e", jump(1, "ERROR"), { desc = "Next error" })
+map("n", "[e", jump(-1, "ERROR"), { desc = "Previous error" })
+map("n", "]w", jump(1, "WARN"), { desc = "Next warning" })
+map("n", "[w", jump(-1, "WARN"), { desc = "Previous warning" })
 
 -- Terminal
 map({ "n", "i", "t" }, "<c-\\>", function()
