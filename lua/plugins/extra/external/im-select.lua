@@ -8,6 +8,7 @@ local opts = {
   default_command = "",
   default_im_select = "",
 }
+local enabled = true
 
 local download = function(url, name)
   ---@diagnostic disable-next-line: param-type-mismatch
@@ -40,12 +41,16 @@ if system == "mac" then
 else
   opts.default_command = "fcitx5-remote"
   opts.default_im_select = "keyboard-us"
+  enabled = vim.fn.executable("fcitx5-remote") == 1
 end
 
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "keaising/im-select.nvim",
     event = "VeryLazy",
+    enabled = enabled,
     opts = opts,
   },
 }
