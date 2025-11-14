@@ -1,10 +1,4 @@
-local system = Utils.get_system()
-
-local prefix_path = ({
-  mac = vim.fn.expand("~/OneDrive"),
-  wsl = "/mnt/c/Users/fushen/OneDrive",
-  linux = vim.fn.expand("~/OneDrive"),
-})[system]
+local prefix_path = vim.fn.expand("~/OneDrive")
 
 local vaults = {
   "profession",

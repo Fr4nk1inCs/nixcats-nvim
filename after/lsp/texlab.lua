@@ -13,17 +13,6 @@ if system == "mac" then
       "%f",
     },
   }
-elseif system == "wsl" then
-  forwardSearch = {
-    executable = "/mnt/c/Users/fushen/AppData/Local/SumatraPDF/SumatraPDF.exe",
-    args = {
-      "-reuse-instance",
-      "%p",
-      "-forward-search",
-      "%f",
-      "%l",
-    },
-  }
 elseif system == "linux" then
   forwardSearch = {
     executable = "zathura",
@@ -53,7 +42,7 @@ return {
         executable = "latexmk",
         args = build_args,
         onSave = true,
-        forwardSearchAfter = system ~= "wsl",
+        forwardSearchAfter = true,
       },
       chktex = {
         onOpenAndSave = true,
