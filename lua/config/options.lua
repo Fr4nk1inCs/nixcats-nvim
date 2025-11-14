@@ -98,26 +98,27 @@ if vim.env.SSH_TTY then
     vim.g.clipboard = "osc52"
   end
 end
-if vim.fn.has("wsl") == 1 then
-  vim.g.clipboard = {
-    name = "WslClipboard",
-    -- Install Neovim on host (Windows) to use faster global clipboard
-    copy = {
-      ["+"] = {
-        "/mnt/c/Program Files/Neovim/bin/win32yank.exe",
-        "-i",
-        "--crlf",
-      },
-      ["*"] = {
-        "/mnt/c/Program Files/Neovim/bin/win32yank.exe",
-        "-i",
-        "--crlf",
-      },
-    },
-    paste = {
-      ["+"] = { "/mnt/c/Program Files/Neovim/bin/win32yank.exe", "-o", "--lf" },
-      ["*"] = { "/mnt/c/Program Files/Neovim/bin/win32yank.exe", "-o", "--lf" },
-    },
-    cache_enabled = 0,
-  }
-end
+-- We do not use WSL clipboard for now
+-- if vim.fn.has("wsl") == 1 then
+--   vim.g.clipboard = {
+--     name = "WslClipboard",
+--     -- Install Neovim on host (Windows) to use faster global clipboard
+--     copy = {
+--       ["+"] = {
+--         "/mnt/c/Program Files/Neovim/bin/win32yank.exe",
+--         "-i",
+--         "--crlf",
+--       },
+--       ["*"] = {
+--         "/mnt/c/Program Files/Neovim/bin/win32yank.exe",
+--         "-i",
+--         "--crlf",
+--       },
+--     },
+--     paste = {
+--       ["+"] = { "/mnt/c/Program Files/Neovim/bin/win32yank.exe", "-o", "--lf" },
+--       ["*"] = { "/mnt/c/Program Files/Neovim/bin/win32yank.exe", "-o", "--lf" },
+--     },
+--     cache_enabled = 0,
+--   }
+-- end

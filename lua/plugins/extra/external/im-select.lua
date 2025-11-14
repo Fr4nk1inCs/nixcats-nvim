@@ -37,15 +37,9 @@ if system == "mac" then
   local url = "https://github.com/laishulu/macism/releases/latest/download/macism-" .. arch
   opts.default_command = download(url, "macism")
   opts.default_im_select = "com.apple.keylayout.ABC"
-elseif system == "linux" then
+else
   opts.default_command = "fcitx5-remote"
   opts.default_im_select = "keyboard-us"
-elseif system == "wsl" then
-  opts.default_command = download(
-    "https://raw.githubusercontent.com/daipeihust/im-select/master/win-mspy/out/x64/im-select-mspy.exe",
-    "im-select-mspy.exe"
-  )
-  opts.default_im_select = "英语模式"
 end
 
 return {

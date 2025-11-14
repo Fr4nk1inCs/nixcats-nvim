@@ -169,7 +169,6 @@
           ]
           ++ lib.optionals pkgs.stdenv.isLinux [
             xdg-utils
-            wsl-open
           ]
           ++ lib.optionals pkgs.stdenv.isDarwin [
             coreutils-prefixed

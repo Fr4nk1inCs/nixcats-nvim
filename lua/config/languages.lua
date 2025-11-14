@@ -196,8 +196,7 @@ local extra = {
   markdown = {
     lsp = "marksman",
     treesitter = { "markdown", "markdown_inline" },
-    linter = "markdownlint_cli2",
-    mason = { "marksman", "markdownlint-cli2" },
+    mason = { "marksman" },
     plugin = {
       {
         "MeanderingProgrammer/render-markdown.nvim",
@@ -302,7 +301,6 @@ local extra = {
         ft = "typst",
         version = "1.*",
         opts = {
-          open_cmd = Utils.get_system() == "wsl" and "wsl-open %s" or nil,
           dependencies_bin = {
             ["tinymist"] = vim.fn.executable("tinymist") == 1 and vim.fn.exepath("tinymist") or nil,
             ["websocat"] = vim.fn.executable("websocat") == 1 and vim.fn.exepath("websocat") or nil,
