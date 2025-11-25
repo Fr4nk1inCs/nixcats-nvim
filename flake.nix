@@ -111,7 +111,7 @@
           deadnix
           statix
           ## python
-          basedpyright
+          pyrefly
           ruff
           black
           isort
