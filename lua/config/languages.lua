@@ -208,6 +208,7 @@ local extra = {
             min_width = 45,
           },
           heading = { sign = false },
+          html = { conceal = false },
           latex = { enabled = false },
         },
         ft = { "markdown", "norg", "rmd", "org" },
