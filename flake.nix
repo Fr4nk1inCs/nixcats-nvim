@@ -160,7 +160,7 @@
             ## typescript
             vtsls
             ## frontend
-            nodePackages.prettier
+            biome
             eslint
             ## toml
             taplo

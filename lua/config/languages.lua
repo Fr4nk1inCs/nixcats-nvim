@@ -160,8 +160,8 @@ local extra = {
   frontend = {
     lsp = { "vtsls", "cssls" },
     treesitter = { "html", "css", "javascript", "jsdoc" },
-    formatter = "prettier",
-    mason = { "vtsls", "css-lsp", "prettier" },
+    formatter = "biome",
+    mason = { "vtsls", "css-lsp", "biome" },
   },
   go = {
     lsp = "gopls",
