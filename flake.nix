@@ -113,8 +113,6 @@
           ## python
           pyrefly
           ruff
-          black
-          isort
           ## c/c++/cuda + cmake
           clang-tools
           neocmakelsp

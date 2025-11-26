@@ -126,8 +126,7 @@ local core = {
   python = {
     lsp = { "pyrefly", "ruff" },
     treesitter = { "python", "ninja", "rst" },
-    formatter = { "black", "isort" },
-    mason = { "pyrefly", "ruff", "black", "isort" },
+    mason = { "pyrefly", "ruff" },
   },
   copilot = {
     lsp = "copilot",
