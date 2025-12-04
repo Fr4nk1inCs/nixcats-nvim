@@ -76,6 +76,13 @@ return {
           enableServerSideFuzzyMatch = true,
         },
       },
+      globalPlugins = {
+        {
+          name = "@astrojs/ts-plugin",
+          location = astro_plugin_path,
+          enableForWorkspaceTypeScriptVersions = true,
+        },
+      },
     },
     typescript = lang_setting,
     javascript = lang_setting,
