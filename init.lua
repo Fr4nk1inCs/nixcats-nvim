@@ -34,8 +34,7 @@ require("nixCatsUtils.lazyCat").setup(nixCats.pawsible({ "allPlugins", "start", 
     priority = 1000,
     lazy = false,
   },
-  { import = "plugins.core" },
-  { import = "plugins.extra" },
+  { import = "plugins" },
 }, lazyOptions)
 
 require("config.lsp")

@@ -90,51 +90,46 @@
       # at RUN TIME for plugins. Will be available to PATH within neovim terminal
       # this includes LSPs
       lspsAndRuntimeDeps = with pkgs; {
-        general = [
-          wget
-          curl
-          fd
-          fzf
-          lazygit
-          ripgrep
-          universal-ctags
-          # core/editor
-          yazi
-          chafa
-          # lsp & other utils
-          ## lua
-          lua-language-server
-          stylua
-          ## nix
-          nixd
-          alejandra
-          deadnix
-          statix
-          ## python
-          pyrefly
-          ruff
-          ## c/c++/cuda + cmake
-          clang-tools
-          neocmakelsp
-          cmake-format
-          ## json & yaml
-          vscode-langservers-extracted # for jsonls
-          yaml-language-server
-          ## bash
-          bash-language-server
-          shfmt
-          shellharden
-          ## copilot
-          copilot-language-server
-        ];
-
-        extra =
+        general =
           [
-            # extra/editor
+            wget
+            curl
+            fd
+            fzf
+            lazygit
+            ripgrep
+            universal-ctags
+            # editor
+            yazi
+            chafa
             lynx
             imagemagick
             ghostscript_headless
-            # extra/languages
+            # lsp & other utils
+            ## lua
+            lua-language-server
+            stylua
+            ## nix
+            nixd
+            alejandra
+            deadnix
+            statix
+            ## python
+            pyrefly
+            ruff
+            ## c/c++/cuda + cmake
+            clang-tools
+            neocmakelsp
+            cmake-format
+            ## json & yaml
+            vscode-langservers-extracted # for jsonls
+            yaml-language-server
+            ## bash
+            bash-language-server
+            shfmt
+            shellharden
+            ## copilot
+            copilot-language-server
             ## go
             delve
             gotools
@@ -182,14 +177,24 @@
           lazy-nvim
           snacks-nvim
           plenary-nvim
-          # core/coding
+          nvim-nio
+          nvim-treesitter.withAllGrammars
+          # coding
           ts-comments-nvim
           blink-cmp
           colorful-menu-nvim
           blink-pairs
           tabout-nvim
           copilot-lua
-          # core/editor
+          sidekick-nvim
+          codecompanion-nvim
+          codecompanion-history-nvim
+          codecompanion-spinner-nvim
+          # debug
+          nvim-dap
+          nvim-dap-ui
+          nvim-dap-virtual-text
+          # editor
           trouble-nvim
           fzf-lua
           todo-comments-nvim
@@ -206,12 +211,34 @@
             rev = "a12c31afaf59d47004e959553a0f6ae480599d83";
             hash = "sha256-jCMJB7jdkJ6lNR4XTf5WBg2uAS6GnN1ESrhlf/z9rd8=";
           }) "atone.nvim")
-          # core/languages
+          grug-far-nvim
+          nvim-highlight-colors
+          codesnap-nvim
+          img-clip-nvim
+          # external
+          vim-wakatime
+          obsidian-nvim
+          blink-compat
+          (mkNvimPlugin (pkgs.fetchFromGitHub {
+            owner = "keaising";
+            repo = "im-select.nvim";
+            rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
+            hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
+          }) "im-select.nvim")
+          # languages
           lazydev-nvim
           clangd_extensions-nvim
           cmake-tools-nvim
           SchemaStore-nvim
-          # core/protocols
+          nvim-dap-python
+          nvim-dap-go
+          markdown-preview-nvim
+          render-markdown-nvim
+          rustaceanvim
+          crates-nvim
+          typst-vim
+          typst-preview-nvim
+          # protocols
           nvim-lspconfig
           (nvim-treesitter.withPlugins (plugins:
             with plugins; [
@@ -253,7 +280,7 @@
           nvim-ts-autotag
           nvim-treesitter-context
           (none-ls-nvim.overrideAttrs {name = "null-ls";})
-          # core/ui
+          # ui
           incline-nvim
           nightfox-nvim
           smartcolumn-nvim
@@ -268,44 +295,6 @@
             rev = "fcc03b8ae171e363b3853d1002cd156270f6e5ac";
             hash = "sha256-a9pkJ/1I9wCTl/qJHG4dr3RvBmLZAaVmtP7GyCQUu3U=";
           }) "blink.indent")
-        ];
-
-        extra = [
-          nvim-nio
-          nvim-treesitter.withAllGrammars
-          # extra/coding
-          sidekick-nvim
-          codecompanion-nvim
-          codecompanion-history-nvim
-          codecompanion-spinner-nvim
-          # extra/debug
-          nvim-dap
-          nvim-dap-ui
-          nvim-dap-virtual-text
-          # extra/editor
-          grug-far-nvim
-          nvim-highlight-colors
-          codesnap-nvim
-          img-clip-nvim
-          # extra/external
-          vim-wakatime
-          obsidian-nvim
-          blink-compat
-          (mkNvimPlugin (pkgs.fetchFromGitHub {
-            owner = "keaising";
-            repo = "im-select.nvim";
-            rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
-            hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
-          }) "im-select.nvim")
-          # extra/languages
-          nvim-dap-python
-          nvim-dap-go
-          markdown-preview-nvim
-          render-markdown-nvim
-          rustaceanvim
-          crates-nvim
-          typst-vim
-          typst-preview-nvim
         ];
       };
 
@@ -380,7 +369,6 @@
         categories =
           {
             general = true;
-            extra = true;
             test = false;
 
             debugpy_python = with pkgs;
@@ -392,20 +380,6 @@
           // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
             skim = toString pkgs.skimpdf;
           };
-        extra = {};
-      };
-      minivim = {pkgs, ...}: {
-        settings =
-          settings
-          // {
-            neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
-            aliases = ["nvim" "vim" "vi" "v"];
-          };
-        categories = {
-          general = true;
-          extra = false;
-          test = false;
-        };
         extra = {};
       };
       # an extra test package with normal lua reload for fast edits

@@ -35,7 +35,7 @@ return {
           goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[A"] = "@parameter.inner" },
         },
       },
-      ensure_installed = LangSettings.core.treesitters,
+      ensure_installed = LangSettings.treesitters,
       auto_install = require("nixCatsUtils").lazyAdd(true, false),
     },
     ---@param opts TSConfig
