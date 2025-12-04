@@ -388,9 +388,6 @@
             js_debug_server = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/src/dapDebugServer.js";
             codelldb = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
             astro_ts_plugin = "${pkgs.astro-language-server}/lib/astro-language-server/packages/ts-plugin";
-
-            markdown_css = toString ./assets/terminal.css;
-            highlight_css = toString ./assets/highlight.css;
           }
           // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
             skim = toString pkgs.skimpdf;
