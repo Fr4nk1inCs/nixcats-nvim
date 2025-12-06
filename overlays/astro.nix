@@ -2,7 +2,7 @@ _: _inputs: let
   overlay = _self: super: {
     astro-language-server = super.astro-language-server.overrideAttrs (
       finalAttrs: oldAttrs: {
-        pnpmDeps = super.pnpm_9.fetchDeps {
+        pnpmDeps = super.pnpm_10.fetchDeps {
           inherit
             (finalAttrs)
             pname
@@ -12,19 +12,28 @@ _: _inputs: let
             prePnpmInstall
             ;
           fetcherVersion = 2;
-          hash = "sha256-4V/mzfXyr0xW1GG/32NfHEKR9nQ2QxcwHdMNIaitx70=";
+          hash = "sha256-OHpSV612ysxQ6j6wKFcoPqJBKOUyPE3BJuwbft0lIHY=";
         };
         pnpmWorkspaces = oldAttrs.pnpmWorkspaces ++ ["@astrojs/ts-plugin..."];
 
         buildPhase = ''
           runHook preBuild
 
-          # Must build the "@astrojs/yaml2ts" package. Dependency is linked via workspace by "pnpm"
-          # (https://github.com/withastro/language-tools/blob/%40astrojs/language-server%402.14.2/pnpm-lock.yaml#L78-L80)
           pnpm --filter "@astrojs/language-server..." --filter "@astrojs/ts-plugin..." build
 
           runHook postBuild
         '';
+
+        installPhase =
+          builtins.replaceStrings [
+            ''--filter="@astrojs/language-server..."''
+            "{language-server,yaml2ts}"
+          ]
+          [
+            ''--filter="@astrojs/language-server..." --filter="@astrojs/ts-plugin..."''
+            "{language-server,yaml2ts,ts-plugin}"
+          ]
+          oldAttrs.installPhase;
       }
     );
   };

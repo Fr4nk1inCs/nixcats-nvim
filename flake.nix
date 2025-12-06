@@ -289,12 +289,7 @@
           noice-nvim
           lualine-nvim
           persistence-nvim
-          (mkNvimPlugin (pkgs.fetchFromGitHub {
-            owner = "Saghen";
-            repo = "blink.indent";
-            rev = "fcc03b8ae171e363b3853d1002cd156270f6e5ac";
-            hash = "sha256-a9pkJ/1I9wCTl/qJHG4dr3RvBmLZAaVmtP7GyCQUu3U=";
-          }) "blink.indent")
+          blink-indent
         ];
       };
 
@@ -366,18 +361,40 @@
           };
         # and a set of categories that you want
         # (and other information to pass to lua)
-        categories =
+        categories = let
+          inherit (pkgs) lib;
+          joinPath = pkg: subpaths: (lib.strings.join "/" ([(toString pkg)] ++ subpaths));
+        in
           {
             general = true;
             test = false;
 
-            debugpy_python = with pkgs;
-              lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
-            js_debug_server = "${pkgs.vscode-js-debug}/lib/node_modules/js-debug/src/dapDebugServer.js";
-            codelldb = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
-            astro_ts_plugin = "${pkgs.astro-language-server}/lib/astro-language-server/packages/ts-plugin";
+            debugpy_python = lib.getExe (pkgs.python3.withPackages (ps: [ps.debugpy]));
+            js_debug_server = joinPath pkgs.vscode-js-debug [
+              "lib"
+              "node_modules"
+              "js-debug"
+              "src"
+              "dapDebugServer.js"
+            ];
+            codelldb = joinPath pkgs.vscode-extensions.vadimcn.vscode-lldb [
+              "share"
+              "vscode"
+              "extensions"
+              "vadimcn.vscode-lldb"
+              "adapter"
+              "codelldb"
+            ];
+            astro_ts_plugin = joinPath pkgs.astro-language-server [
+              "lib"
+              "node_modules"
+              "astro-language-server"
+              "packages"
+              "language-tools"
+              "ts-plugin"
+            ];
           }
-          // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin {
+          // lib.optionalAttrs pkgs.stdenv.isDarwin {
             skim = toString pkgs.skimpdf;
           };
         extra = {};
