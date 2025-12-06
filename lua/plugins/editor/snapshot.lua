@@ -1,7 +1,8 @@
+---@type LazyPluginSpec[]
 return {
   {
     "mistricky/codesnap.nvim",
-    build = require("nixCatsUtils").lazyAdd("make", nil),
+    enabled = false,
     opts = {
       save_path = "~/Pictures",
       has_breadcrumbs = true,

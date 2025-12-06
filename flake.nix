@@ -213,7 +213,7 @@
           }) "atone.nvim")
           grug-far-nvim
           nvim-highlight-colors
-          codesnap-nvim
+          # codesnap-nvim
           img-clip-nvim
           # external
           vim-wakatime
