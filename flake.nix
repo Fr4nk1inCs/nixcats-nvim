@@ -289,7 +289,7 @@
           noice-nvim
           lualine-nvim
           persistence-nvim
-          blink-indent
+          # blink-indent
         ];
       };
 

@@ -1,6 +1,19 @@
+local highlights = {
+  "TSRainbowRed",
+  "TSRainbowYellow",
+  "TSRainbowBlue",
+  "TSRainbowOrange",
+  "TSRainbowGreen",
+  "TSRainbowViolet",
+  "TSRainbowCyan",
+}
+
+---@module "lazy"
+---@type LazyPluginSpec[]
 return {
   {
     "saghen/blink.indent",
+    enabled = false,
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     ---@module "blink.indent"
     ---@type blink.indent.Config
@@ -11,15 +24,7 @@ return {
       scope = {
         enabled = true,
         char = "▏",
-        highlights = {
-          "TSRainbowRed",
-          "TSRainbowYellow",
-          "TSRainbowBlue",
-          "TSRainbowOrange",
-          "TSRainbowGreen",
-          "TSRainbowViolet",
-          "TSRainbowCyan",
-        },
+        highlights = highlights,
         underline = {
           enabled = true,
         },
@@ -39,5 +44,31 @@ return {
 
       require("blink.indent").setup(opts)
     end,
+  },
+  {
+    "folke/snacks.nvim",
+    ---@module "snacks"
+    ---@type snacks.config
+    opts = {
+      indent = {
+        indent = {
+          enabled = false,
+        },
+        animate = {
+          enabled = false,
+        },
+        scope = {
+          hl = highlights,
+        },
+        chunk = {
+          enabled = true,
+          hl = highlights,
+          char = {
+            corner_top = "╭",
+            corner_bottom = "╰",
+          },
+        },
+      },
+    },
   },
 }
