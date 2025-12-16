@@ -1,7 +1,10 @@
+---@module "lazy.nvim"
+---@type LazyPluginSpec[]
 return {
   {
     "nvim-treesitter/nvim-treesitter",
 
+    branch = "master",
     version = false,
     build = require("nixCatsUtils").lazyAdd(":TSUpdate"),
 
