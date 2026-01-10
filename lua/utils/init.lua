@@ -59,6 +59,7 @@ M.terminal = {
 M.lualine = require("utils.lualine")
 M.root = require("utils.root")
 M.lang = require("utils.lang")
+M.autofmt = require("utils.autofmt")
 
 _G.Utils = M
 return M
