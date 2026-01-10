@@ -2,7 +2,7 @@ _: _inputs: let
   overlay = _self: super: {
     astro-language-server = super.astro-language-server.overrideAttrs (
       finalAttrs: oldAttrs: {
-        pnpmDeps = super.pnpm_10.fetchDeps {
+        pnpmDeps = super.fetchPnpmDeps {
           inherit
             (finalAttrs)
             pname

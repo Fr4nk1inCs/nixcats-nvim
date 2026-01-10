@@ -5,7 +5,6 @@ return {
     "nvim-treesitter/nvim-treesitter",
 
     branch = "master",
-    version = false,
     build = require("nixCatsUtils").lazyAdd(":TSUpdate"),
 
     event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
@@ -41,6 +40,7 @@ return {
       ensure_installed = LangSettings.treesitters,
       auto_install = require("nixCatsUtils").lazyAdd(true, false),
     },
+    ---@module "nvim-treesitter"
     ---@param opts TSConfig
     config = function(_, opts)
       if type(opts.ensure_installed) == "table" then

@@ -97,6 +97,7 @@
             fd
             fzf
             lazygit
+            lsof
             ripgrep
             universal-ctags
             # editor
@@ -172,13 +173,31 @@
       # NOTE: lazy doesnt care if these are in startupPlugins or optionalPlugins
       # also you dont have to download everything via nix if you dont want.
       # but you have the option, and that is demonstrated here.
-      startupPlugins = with pkgs.vimPlugins; {
+      startupPlugins = with pkgs.vimPlugins; let
+        atone-nvim = mkNvimPlugin (pkgs.fetchFromGitHub {
+          owner = "XXiaoA";
+          repo = "atone.nvim";
+          rev = "a12c31afaf59d47004e959553a0f6ae480599d83";
+          hash = "sha256-jCMJB7jdkJ6lNR4XTf5WBg2uAS6GnN1ESrhlf/z9rd8=";
+        }) "atone.nvim";
+        im-select-nvim = mkNvimPlugin (pkgs.fetchFromGitHub {
+          owner = "keaising";
+          repo = "im-select.nvim";
+          rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
+          hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
+        }) "im-select.nvim";
+        nvim-treesitter-textobjects-legacy = mkNvimPlugin (pkgs.fetchFromGitHub {
+          owner = "nvim-treesitter";
+          repo = "nvim-treesitter-textobjects";
+          rev = "5ca4aaa6efdcc59be46b95a3e876300cfead05ef";
+          hash = "sha256-lf+AwSu96iKO1vWWU2D7jWHGfjXkbX9R2CX3gMZaD4M=";
+        }) "nvim-treesitter-textobjects";
+      in {
         general = [
           lazy-nvim
           snacks-nvim
           plenary-nvim
           nvim-nio
-          nvim-treesitter.withAllGrammars
           # coding
           ts-comments-nvim
           blink-cmp
@@ -202,12 +221,7 @@
           gitsigns-nvim
           nvim-early-retirement
           hardtime-nvim
-          (mkNvimPlugin (pkgs.fetchFromGitHub {
-            owner = "XXiaoA";
-            repo = "atone.nvim";
-            rev = "a12c31afaf59d47004e959553a0f6ae480599d83";
-            hash = "sha256-jCMJB7jdkJ6lNR4XTf5WBg2uAS6GnN1ESrhlf/z9rd8=";
-          }) "atone.nvim")
+          atone-nvim
           grug-far-nvim
           nvim-highlight-colors
           # codesnap-nvim
@@ -216,12 +230,7 @@
           vim-wakatime
           obsidian-nvim
           blink-compat
-          (mkNvimPlugin (pkgs.fetchFromGitHub {
-            owner = "keaising";
-            repo = "im-select.nvim";
-            rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
-            hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
-          }) "im-select.nvim")
+          im-select-nvim
           # languages
           lazydev-nvim
           clangd_extensions-nvim
@@ -237,43 +246,8 @@
           typst-preview-nvim
           # protocols
           nvim-lspconfig
-          (nvim-treesitter.withPlugins (plugins:
-            with plugins; [
-              bash
-              c
-              cmake
-              cpp
-              cuda
-              diff
-              html
-              javascript
-              jsdoc
-              json
-              json5
-              jsonc
-              latex
-              lua
-              luadoc
-              luap
-              markdown
-              markdown_inline
-              ninja
-              nix
-              printf
-              python
-              query
-              regex
-              rst
-              toml
-              tsx
-              typescript
-              systemverilog
-              vim
-              vimdoc
-              xml
-              yaml
-            ]))
-          nvim-treesitter-textobjects
+          (nvim-treesitter-legacy.withAllGrammars.overrideAttrs {pname = "nvim-treesitter";})
+          nvim-treesitter-textobjects-legacy
           nvim-ts-autotag
           nvim-treesitter-context
           (none-ls-nvim.overrideAttrs {name = "null-ls";})
