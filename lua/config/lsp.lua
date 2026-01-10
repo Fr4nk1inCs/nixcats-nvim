@@ -6,18 +6,23 @@ end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
-    vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature help" })
-    vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.run, { desc = "Run codelens" })
-    vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.refresh, { desc = "Refresh codelens" })
-    vim.keymap.set("n", "gd", fzf_goto("lsp_definitions"), { desc = "Goto definition" })
-    vim.keymap.set("n", "grr", fzf_goto("lsp_references"), { desc = "References" })
-    vim.keymap.set("n", "gri", fzf_goto("lsp_implementations"), { desc = "Goto implementation" })
-    vim.keymap.set("n", "gry", fzf_goto("lsp_typedefs"), { desc = "Goto t[y]pe definition" })
-    vim.keymap.set("n", "gO", require("fzf-lua").lsp_document_symbols, { desc = "Document symbol" })
-    vim.keymap.set("n", "gwO", require("fzf-lua").lsp_live_workspace_symbols, { desc = "Workspace symbol" })
-
     local bufnr = args.buf
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+    vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature help" })
+    vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.run, { buffer = bufnr, desc = "Run codelens" })
+    vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.refresh, { buffer = bufnr, desc = "Refresh codelens" })
+    vim.keymap.set("n", "gd", fzf_goto("lsp_definitions"), { buffer = bufnr, desc = "Goto definition" })
+    vim.keymap.set("n", "grr", fzf_goto("lsp_references"), { buffer = bufnr, desc = "References" })
+    vim.keymap.set("n", "gri", fzf_goto("lsp_implementations"), { buffer = bufnr, desc = "Goto implementation" })
+    vim.keymap.set("n", "grt", fzf_goto("lsp_typedefs"), { buffer = bufnr, desc = "Goto type definition" })
+    vim.keymap.set("n", "gO", require("fzf-lua").lsp_document_symbols, { buffer = bufnr, desc = "Document symbol" })
+    vim.keymap.set(
+      "n",
+      "gwO",
+      require("fzf-lua").lsp_live_workspace_symbols,
+      { buffer = bufnr, desc = "Workspace symbol" }
+    )
 
     if client.server_capabilities.foldingRangeProvider then
       local win = vim.api.nvim_get_current_win()
