@@ -41,17 +41,17 @@ return {
     opts = {},
     keys = {
       {
-        "<c-a>",
+        "<c-tab>",
         function()
           require("sidekick").nes_jump_or_apply()
         end,
         desc = "Goto/Apply next edit suggestion",
       },
       {
-        "<c-a>",
+        "<c-tab>",
         function()
           if require("sidekick").nes_jump_or_apply() then
-            return "<c-a>"
+            return "<c-tab>"
           end
         end,
         mode = "i",
