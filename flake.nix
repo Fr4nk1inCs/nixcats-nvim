@@ -185,11 +185,8 @@
           colorful-menu-nvim
           blink-pairs
           tabout-nvim
-          copilot-lua
           sidekick-nvim
-          codecompanion-nvim
-          codecompanion-history-nvim
-          codecompanion-spinner-nvim
+          opencode-nvim
           # debug
           nvim-dap
           nvim-dap-ui

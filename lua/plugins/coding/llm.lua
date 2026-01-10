@@ -2,33 +2,88 @@
 ---@type LazyPluginSpec[]
 return {
   {
-    "olimorris/codecompanion.nvim",
-    event = "VeryLazy",
-    cmd = { "CodeCompanion" },
+    "NickvanDyke/opencode.nvim",
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "franco-ruggeri/codecompanion-spinner.nvim",
-      "ravitemer/codecompanion-history.nvim",
-    },
-    opts = {
-      adapter = {
-        acp = {
-          gemini_cli = function()
-            return require("codecompanion.adapters").extend(
-              "gemini_cli",
-              { defaults = { auth_method = "oauth-personal" } }
-            )
-          end,
+      "folke/which-key.nvim",
+      opts = {
+        ---@module "which-key"
+        ---@type wk.Spec
+        spec = {
+          {
+            mode = { "n", "x" },
+            { "<leader>o", group = "opencode" },
+          },
         },
       },
-      strategies = {
-        chat = { adapter = "copilot" },
-        inline = { adapter = "copilot" },
-        cmd = { adapter = "copilot" },
+    },
+    config = function(_)
+      ---@module "opencode"
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        provider = {
+          enabled = "snacks",
+        },
+      }
+      vim.o.autoread = true
+    end,
+    keys = {
+      {
+        "<leader>oa",
+        function()
+          require("opencode").ask("@this: ", { submit = true })
+        end,
+        mode = { "n", "x" },
+        desc = "Ask Opencode",
       },
-      extensions = {
-        spinner = {},
-        history = { enabled = true },
+      {
+        "<leader>os",
+        function()
+          require("opencode").select()
+        end,
+        mode = { "n", "x" },
+        desc = "Execute Opencode Action",
+      },
+      {
+        "<leader>ou",
+        function()
+          require("opencode").command("session.half.page.up")
+        end,
+        mode = "n",
+        desc = "Opencode Session Up",
+      },
+      {
+        "<leader>od",
+        function()
+          require("opencode").command("session.half.page.down")
+        end,
+        mode = "n",
+        desc = "Opencode Session Down",
+      },
+      {
+        "<leader>or",
+        function()
+          return require("opencode").operator("@this ")
+        end,
+        mode = { "n", "x" },
+        expr = true,
+        desc = "Add range to Opencode",
+      },
+      {
+        "<leader>ol",
+        function()
+          return require("opencode").operator("@this ") .. "_"
+        end,
+        mode = "n",
+        expr = true,
+        desc = "Add line to Opencode",
+      },
+      {
+        "<c-o>",
+        function()
+          require("opencode").toggle()
+        end,
+        mode = { "n", "t" },
+        desc = "Toggle Opencode",
       },
     },
   },
@@ -84,16 +139,7 @@ return {
 
       -- CLI session status
       table.insert(opts.sections.lualine_x, 2, {
-        function()
-          local status = require("sidekick.status").cli()
-          return " " .. (#status > 1 and #status or "")
-        end,
-        cond = function()
-          return #require("sidekick.status").cli() > 0
-        end,
-        color = function()
-          return "Special"
-        end,
+        require("opencode").statusline,
       })
     end,
   },
