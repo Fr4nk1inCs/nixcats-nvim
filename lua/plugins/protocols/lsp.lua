@@ -22,7 +22,10 @@ return {
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     build = ":MasonUpdate",
     opts_extend = { "ensure_installed" },
+    ---@module "mason"
+    ---@type MasonSettings
     opts = {
+      PATH = "append",
       ensure_installed = LangSettings.mason,
     },
     config = function(_, opts)
