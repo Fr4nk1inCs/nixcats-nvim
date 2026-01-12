@@ -78,7 +78,7 @@ return {
         desc = "Add line to Opencode",
       },
       {
-        "<c-o>",
+        "<m-o>",
         function()
           require("opencode").toggle()
         end,
