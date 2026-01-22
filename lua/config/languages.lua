@@ -142,7 +142,7 @@ opts.json_yaml = {
 }
 
 opts.python = {
-  lsp = { "pyrefly", "ruff" },
+  lsp = { "ty", "ruff" },
   treesitter = { "python", "ninja", "rst" },
   mason = { "pyrefly", "ruff" },
 }

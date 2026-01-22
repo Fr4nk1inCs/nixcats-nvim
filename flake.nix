@@ -116,7 +116,7 @@
             deadnix
             statix
             ## python
-            pyrefly
+            ty
             ruff
             ## c/c++/cuda + cmake
             clang-tools
