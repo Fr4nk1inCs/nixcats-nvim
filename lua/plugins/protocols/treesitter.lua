@@ -54,6 +54,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "master",
     event = "VeryLazy",
     enabled = true,
     config = function()

@@ -1,5 +1,3 @@
-vim.lsp.enable(LangSettings.lsps)
-
 local fzf_goto = function(command)
   return function()
     require("fzf-lua")[command]({ jump1 = true, ignore_current_line = true })
@@ -13,7 +11,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature help" })
     vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.run, { buffer = bufnr, desc = "Run codelens" })
-    vim.keymap.set({ "n", "v" }, "grc", vim.lsp.codelens.refresh, { buffer = bufnr, desc = "Refresh codelens" })
     vim.keymap.set("n", "gd", fzf_goto("lsp_definitions"), { buffer = bufnr, desc = "Goto definition" })
     vim.keymap.set("n", "grr", fzf_goto("lsp_references"), { buffer = bufnr, desc = "References" })
     vim.keymap.set("n", "gri", fzf_goto("lsp_implementations"), { buffer = bufnr, desc = "Goto implementation" })
@@ -37,11 +34,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if client.server_capabilities.codeLensProvider then
-      vim.lsp.codelens.refresh()
-      vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
-        buffer = args.buf,
-        callback = vim.lsp.codelens.refresh,
-      })
+      vim.lsp.codelens.enable(true)
     end
 
     if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then

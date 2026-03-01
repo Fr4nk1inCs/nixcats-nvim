@@ -1,10 +1,11 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     ---@class PluginLspOpts
     opts = {},
-    config = function(_, _) end,
+    config = function(_, _)
+      vim.lsp.enable(LangSettings.lsps)
+    end,
   },
   {
     "nvimtools/none-ls.nvim",

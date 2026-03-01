@@ -186,12 +186,6 @@
           rev = "6425bea7bbacbdde71538b6d9580c1f7b0a5a010";
           hash = "sha256-sE3ybP3Y+NcdUQWjaqpWSDRacUVbRkeV/fGYdPIjIqg=";
         }) "im-select.nvim";
-        nvim-treesitter-textobjects-legacy = mkNvimPlugin (pkgs.fetchFromGitHub {
-          owner = "nvim-treesitter";
-          repo = "nvim-treesitter-textobjects";
-          rev = "5ca4aaa6efdcc59be46b95a3e876300cfead05ef";
-          hash = "sha256-lf+AwSu96iKO1vWWU2D7jWHGfjXkbX9R2CX3gMZaD4M=";
-        }) "nvim-treesitter-textobjects";
       in {
         general = [
           lazy-nvim
@@ -247,7 +241,7 @@
           # protocols
           nvim-lspconfig
           (nvim-treesitter-legacy.withAllGrammars.overrideAttrs {pname = "nvim-treesitter";})
-          nvim-treesitter-textobjects-legacy
+          (nvim-treesitter-textobjects-legacy.overrideAttrs {pname = "nvim-treesitter-textobjects";})
           nvim-ts-autotag
           nvim-treesitter-context
           (none-ls-nvim.overrideAttrs {name = "null-ls";})
