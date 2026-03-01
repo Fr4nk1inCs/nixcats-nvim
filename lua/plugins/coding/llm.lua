@@ -17,14 +17,52 @@ return {
       },
     },
     config = function(_)
+      local opencode_cmd = "opencode --port"
+      ---@type snacks.terminal.Opts
+      local st_opts = {
+        win = {
+          position = "right",
+          enter = false,
+          on_win = function(win)
+            -- Set up keymaps and cleanup for an arbitrary terminal
+            require("opencode.terminal").setup(win.win)
+          end,
+        },
+      }
       ---@module "opencode"
       ---@type opencode.Opts
       vim.g.opencode_opts = {
-        provider = {
-          enabled = "snacks",
+        server = {
+          start = function()
+            require("snacks.terminal").open(opencode_cmd, st_opts)
+          end,
+          stop = function()
+            require("snacks.terminal").get(opencode_cmd, st_opts):close()
+          end,
+          toggle = function()
+            require("snacks.terminal").toggle(opencode_cmd, st_opts)
+          end,
         },
       }
       vim.o.autoread = true
+
+      -- Handle `opencode` events
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "OpencodeEvent:*", -- Optionally filter event types
+        callback = function(args)
+          ---@type opencode.cli.client.Event
+          local event = args.data.event
+          ---@type number
+          local port = args.data.port
+
+          -- See the available event types and their properties
+          vim.notify(vim.inspect(event))
+          -- Do something useful
+          if event.type == "session.idle" then
+            vim.notify("`opencode` finished responding")
+          end
+        end,
+      })
     end,
     keys = {
       {
