@@ -1,5 +1,3 @@
-vim.lsp.enable(LangSettings.lsps)
-
 return {
   LangSettings.lazy,
   { import = "plugins.coding" },

@@ -1,3 +1,5 @@
+vim.lsp.enable(LangSettings.lsps)
+
 local fzf_goto = function(command)
   return function()
     require("fzf-lua")[command]({ jump1 = true, ignore_current_line = true })
