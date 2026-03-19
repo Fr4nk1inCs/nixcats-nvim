@@ -247,7 +247,7 @@
           (none-ls-nvim.overrideAttrs {name = "null-ls";})
           # ui
           incline-nvim
-          nightfox-nvim
+          base16-nvim
           smartcolumn-nvim
           mini-icons
           nui-nvim

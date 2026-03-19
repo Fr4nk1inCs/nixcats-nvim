@@ -58,23 +58,6 @@ return {
     end,
     opts = {
       popup_border_style = "rounded",
-      sources = { "filesystem", "buffers", "git_status", "document_symbols" },
-      source_selector = {
-        winbar = true,
-        padding = 1,
-        content_layout = "center",
-        sources = {
-          { source = "filesystem", display_name = " Files" },
-          { source = "buffers", display_name = " Buffers" },
-          { source = "git_status", display_name = " Git" },
-          { source = "document_symbols", display_name = " Symbols" },
-        },
-        highlight_tab = "BufferInactive",
-        highlight_tab_active = "BufferVisible",
-        highlight_background = "BufferInactive",
-        highlight_separator = "BufferVisible",
-        highlight_separator_active = "BufferVisible",
-      },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       filesystem = {
         bind_to_cwd = false,
