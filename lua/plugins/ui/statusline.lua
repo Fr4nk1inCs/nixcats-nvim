@@ -28,7 +28,7 @@ return {
 
       local opts = {
         options = {
-          theme = "auto",
+          theme = "base16",
           globalstatus = vim.o.laststatus == 3,
           disabled_filetypes = { statusline = { "dashboard", "alpha", "ministarter", "snacks_dashboard" } },
         },
@@ -81,12 +81,15 @@ return {
         extensions = { "neo-tree", "lazy", "fzf" },
       }
 
+      -- FIXME: This is a temporary hack to get the trouble.nvim colors looking
+      -- correct, the real fix is https://github.com/folke/trouble.nvim/pull/616
+      vim.api.nvim_set_hl(0, "StatusLine", { link = "lualine_c_normal" })
       local symbols = require("trouble").statusline({
         mode = "symbols",
         groups = {},
         title = false,
         filter = { range = true },
-        format = "{kind_icon}{symbol.name:Normal}",
+        format = "{kind_icon}{symbol.name}",
         hl_group = "lualine_c_normal",
       })
       table.insert(opts.sections.lualine_c, {
