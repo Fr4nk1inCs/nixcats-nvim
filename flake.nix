@@ -240,8 +240,8 @@
           typst-preview-nvim
           # protocols
           nvim-lspconfig
-          (nvim-treesitter-legacy.withAllGrammars.overrideAttrs {pname = "nvim-treesitter";})
-          (nvim-treesitter-textobjects-legacy.overrideAttrs {pname = "nvim-treesitter-textobjects";})
+          nvim-treesitter.withAllGrammars
+          nvim-treesitter-textobjects
           nvim-ts-autotag
           nvim-treesitter-context
           (none-ls-nvim.overrideAttrs {name = "null-ls";})
