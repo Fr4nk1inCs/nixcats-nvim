@@ -35,7 +35,7 @@ return {
 
           if not require("nixCatsUtils").isNixCats and not vim.treesitter.language.add(lang) then
             if not vim.g.ts_available then
-              vim.g.ts_available = ts.available_parsers()
+              vim.g.ts_available = ts.get_available()
             end
             if vim.tbl_contains(vim.g.ts_available, lang) then
               vim.notify(
