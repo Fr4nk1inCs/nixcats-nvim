@@ -317,6 +317,7 @@ opts.typst = {
       ft = "typst",
       version = "1.*",
       opts = {
+        open_cmd = vim.fn.has("mac") == 1 and "open %s" or "xdg-open %s",
         dependencies_bin = {
           ["tinymist"] = vim.fn.executable("tinymist") == 1 and vim.fn.exepath("tinymist") or nil,
           ["websocat"] = vim.fn.executable("websocat") == 1 and vim.fn.exepath("websocat") or nil,
