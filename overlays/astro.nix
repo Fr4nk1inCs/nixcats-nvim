@@ -13,7 +13,7 @@ _: _inputs: let
             ;
           pnpm = super.pnpm_10;
           fetcherVersion = 3;
-          hash = "sha256-aovKKeT+P9sgEDxy2F4UdWL0j1mJPydag6BTLXAYCNk=";
+          hash = "sha256-1kdXt0Wc/ON//hwBYozRSMAyKQqEfSMfOI7XJyd9MBc=";
         };
         pnpmWorkspaces = oldAttrs.pnpmWorkspaces ++ ["@astrojs/ts-plugin..."];
 
