@@ -2,6 +2,7 @@ return {
   {
     "nvim-neo-tree/neo-tree.nvim",
     cmd = "Neotree",
+
     keys = {
       {
         "<leader>fe",
@@ -34,9 +35,11 @@ return {
         desc = "Buffer Explorer",
       },
     },
+
     deactivate = function()
       vim.cmd([[Neotree close]])
     end,
+
     init = function()
       -- FIX: use `autocmd` for lazy-loading neo-tree instead of directly requiring it,
       -- because `cwd` is not set up properly.
@@ -56,6 +59,8 @@ return {
         end,
       })
     end,
+
+    ---@type neotree.Config
     opts = {
       popup_border_style = "rounded",
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
@@ -74,6 +79,7 @@ return {
         },
       },
       window = {
+        position = "right",
         mappings = {
           ["l"] = "open",
           ["h"] = "close_node",
@@ -112,6 +118,8 @@ return {
         },
       },
     },
+
+    ---@param opts neotree.Config
     config = function(_, opts)
       local function on_move(data)
         Snacks.rename.on_rename_file(data.source, data.destination)
@@ -122,7 +130,15 @@ return {
       vim.list_extend(opts.event_handlers, {
         { event = events.FILE_MOVED, handler = on_move },
         { event = events.FILE_RENAMED, handler = on_move },
+        {
+          event = events.NEO_TREE_BUFFER_ENTER,
+          handler = function()
+            vim.opt_local.signcolumn = "no"
+            vim.opt_local.statuscolumn = ""
+          end,
+        },
       })
+
       require("neo-tree").setup(opts)
       vim.api.nvim_create_autocmd("TermClose", {
         pattern = "*lazygit",
