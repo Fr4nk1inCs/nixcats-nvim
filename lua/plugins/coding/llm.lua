@@ -2,136 +2,16 @@
 ---@type LazyPluginSpec[]
 return {
   {
-    "NickvanDyke/opencode.nvim",
-    dependencies = {
-      "folke/which-key.nvim",
-      opts = {
-        ---@module "which-key"
-        ---@type wk.Spec
-        spec = {
-          {
-            mode = { "n", "x" },
-            { "<leader>o", group = "opencode" },
-          },
-        },
-      },
-    },
-    config = function(_)
-      local opencode_cmd = "opencode --port"
-      ---@type snacks.terminal.Opts
-      local st_opts = {
-        win = {
-          position = "right",
-          enter = false,
-          on_win = function(win)
-            -- Set up keymaps and cleanup for an arbitrary terminal
-            require("opencode.terminal").setup(win.win)
-          end,
-        },
-      }
-      ---@module "opencode"
-      ---@type opencode.Opts
-      vim.g.opencode_opts = {
-        server = {
-          start = function()
-            require("snacks.terminal").open(opencode_cmd, st_opts)
-          end,
-          stop = function()
-            require("snacks.terminal").get(opencode_cmd, st_opts):close()
-          end,
-          toggle = function()
-            require("snacks.terminal").toggle(opencode_cmd, st_opts)
-          end,
-        },
-      }
-      vim.o.autoread = true
-
-      -- Handle `opencode` events
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "OpencodeEvent:*", -- Optionally filter event types
-        callback = function(args)
-          ---@type opencode.cli.client.Event
-          local event = args.data.event
-          ---@type number
-          local port = args.data.port
-
-          -- See the available event types and their properties
-          vim.notify(vim.inspect(event))
-          -- Do something useful
-          if event.type == "session.idle" then
-            vim.notify("`opencode` finished responding")
-          end
-        end,
-      })
-    end,
-    keys = {
-      {
-        "<leader>oa",
-        function()
-          require("opencode").ask("@this: ", { submit = true })
-        end,
-        mode = { "n", "x" },
-        desc = "Ask Opencode",
-      },
-      {
-        "<leader>os",
-        function()
-          require("opencode").select()
-        end,
-        mode = { "n", "x" },
-        desc = "Execute Opencode Action",
-      },
-      {
-        "<leader>ou",
-        function()
-          require("opencode").command("session.half.page.up")
-        end,
-        mode = "n",
-        desc = "Opencode Session Up",
-      },
-      {
-        "<leader>od",
-        function()
-          require("opencode").command("session.half.page.down")
-        end,
-        mode = "n",
-        desc = "Opencode Session Down",
-      },
-      {
-        "<leader>or",
-        function()
-          return require("opencode").operator("@this ")
-        end,
-        mode = { "n", "x" },
-        expr = true,
-        desc = "Add range to Opencode",
-      },
-      {
-        "<leader>ol",
-        function()
-          return require("opencode").operator("@this ") .. "_"
-        end,
-        mode = "n",
-        expr = true,
-        desc = "Add line to Opencode",
-      },
-      {
-        "<m-o>",
-        function()
-          require("opencode").toggle()
-        end,
-        mode = { "n", "t" },
-        desc = "Toggle Opencode",
-      },
-    },
-  },
-  {
     "folke/sidekick.nvim",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     cmd = { "Sidekick" },
     ---@module "sidekick"
     ---@type sidekick.Config
-    opts = {},
+    opts = {
+      cli = {
+        layout = "left",
+      },
+    },
     keys = {
       {
         "<c-;>",
@@ -150,6 +30,60 @@ return {
         mode = "i",
         expr = true,
         desc = "Goto/Apply next edit suggestion",
+      },
+      {
+        "<leader>aa",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        desc = "Sidekick Toggle CLI",
+      },
+      {
+        "<leader>as",
+        function()
+          require("sidekick.cli").select()
+        end,
+        -- Or to select only installed tools:
+        -- require("sidekick.cli").select({ filter = { installed = true } })
+        desc = "Select CLI",
+      },
+      {
+        "<leader>ad",
+        function()
+          require("sidekick.cli").close()
+        end,
+        desc = "Detach a CLI Session",
+      },
+      {
+        "<leader>at",
+        function()
+          require("sidekick.cli").send({ msg = "{this}" })
+        end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
+        "<leader>af",
+        function()
+          require("sidekick.cli").send({ msg = "{file}" })
+        end,
+        desc = "Send File",
+      },
+      {
+        "<leader>av",
+        function()
+          require("sidekick.cli").send({ msg = "{selection}" })
+        end,
+        mode = { "x" },
+        desc = "Send Visual Selection",
+      },
+      {
+        "<leader>ap",
+        function()
+          require("sidekick.cli").prompt()
+        end,
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
       },
     },
   },
@@ -175,10 +109,17 @@ return {
         end)
       )
 
-      -- CLI session status
-      table.insert(opts.sections.lualine_x, 2, {
-        require("opencode").statusline,
-      })
+      table.insert(
+        opts.sections.lualine_x,
+        3,
+        Utils.lualine.status(" ", function()
+          local status = require("sidekick.status").cli()
+          if status == 0 then
+            return nil
+          end
+          return "ok"
+        end)
+      )
     end,
   },
 }

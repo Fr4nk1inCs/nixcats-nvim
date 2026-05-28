@@ -199,7 +199,6 @@
           blink-pairs
           tabout-nvim
           sidekick-nvim
-          opencode-nvim
           # debug
           nvim-dap
           nvim-dap-ui
