@@ -9,11 +9,10 @@ _: _inputs: let
             version
             src
             pnpmWorkspaces
-            prePnpmInstall
             ;
-          pnpm = super.pnpm_10;
-          fetcherVersion = 3;
-          hash = "sha256-1kdXt0Wc/ON//hwBYozRSMAyKQqEfSMfOI7XJyd9MBc=";
+          pnpm = super.pnpm_11.override {nodejs-slim = super.nodejs-slim_22;};
+          fetcherVersion = 4;
+          hash = "sha256-dqqvN8FMLjEbTtgQRkkURD7clMJ/OL9Mbk6icc4KU60=";
         };
         pnpmWorkspaces = oldAttrs.pnpmWorkspaces ++ ["@astrojs/ts-plugin..."];
 
