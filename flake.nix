@@ -112,7 +112,7 @@
             stylua
             ## nix
             nixd
-            alejandra
+            nixfmt
             deadnix
             statix
             ## python
