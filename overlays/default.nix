@@ -26,4 +26,6 @@ let
 in
 # calls the functions from the overlay files to create the overlays,
 # then puts them in a list.
-builtins.attrValues (builtins.mapAttrs (name: value: (value name inputs)) overlaySet)
+builtins.attrValues (
+  builtins.mapAttrs (name: value: (value name inputs)) overlaySet
+)

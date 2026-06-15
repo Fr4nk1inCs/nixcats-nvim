@@ -342,14 +342,16 @@
           # you can include as many as you wish.
           nvim = { pkgs, ... }: {
             settings = settings // {
-              neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
+              neovim-unwrapped =
+                inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.neovim;
             };
             # and a set of categories that you want
             # (and other information to pass to lua)
             categories =
               let
                 inherit (pkgs) lib;
-                joinPath = pkg: subpaths: (lib.strings.join "/" ([ (toString pkg) ] ++ subpaths));
+                joinPath =
+                  pkg: subpaths: (lib.strings.join "/" ([ (toString pkg) ] ++ subpaths));
               in
               {
                 general = true;
