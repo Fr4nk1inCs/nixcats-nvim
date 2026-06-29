@@ -81,45 +81,39 @@ vim.o.exrc = true
 vim.o.modeline = true
 
 if vim.env.SSH_TTY then
-  if vim.env.TMUX ~= nil then
-    local paste = { "bash", "-c", "tmux refresh-client -l && sleep 0.05 && tmux save-buffer -" }
-    vim.g.clipboard = {
-      name = "TmuxRemoteClipboard",
-      copy = {
-        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-      },
-      paste = {
-        ["+"] = paste,
-        ["*"] = paste,
-      },
-      cache_enabled = 0,
-    }
-  else
+  local inside_tmux = vim.env.TMUX ~= nil
+  local inside_herdr = vim.env.HERDR_ENV ~= nil
+
+  if not (inside_tmux or inside_herdr) then
     vim.g.clipboard = "osc52"
+    return
   end
+
+  local paste
+
+  if inside_tmux then
+    paste = { "bash", "-c", "tmux refresh-client -l && sleep 0.05 && tmux save-buffer -" }
+  elseif inside_herdr then
+    paste = function()
+      return {
+        vim.fn.split(vim.fn.getreg(""), "\n"),
+        vim.fn.getregtype(""),
+      }
+    end
+  else
+    vim.notify("Unknown MUX detected", vim.log.levels.ERROR)
+  end
+
+  vim.g.clipboard = {
+    name = "TmuxRemoteClipboard",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = paste,
+      ["*"] = paste,
+    },
+    cache_enabled = 0,
+  }
 end
--- We do not use WSL clipboard for now
--- if vim.fn.has("wsl") == 1 then
---   vim.g.clipboard = {
---     name = "WslClipboard",
---     -- Install Neovim on host (Windows) to use faster global clipboard
---     copy = {
---       ["+"] = {
---         "/mnt/c/Program Files/Neovim/bin/win32yank.exe",
---         "-i",
---         "--crlf",
---       },
---       ["*"] = {
---         "/mnt/c/Program Files/Neovim/bin/win32yank.exe",
---         "-i",
---         "--crlf",
---       },
---     },
---     paste = {
---       ["+"] = { "/mnt/c/Program Files/Neovim/bin/win32yank.exe", "-o", "--lf" },
---       ["*"] = { "/mnt/c/Program Files/Neovim/bin/win32yank.exe", "-o", "--lf" },
---     },
---     cache_enabled = 0,
---   }
--- end
