@@ -161,7 +161,7 @@
               biome
               eslint
               ## toml
-              taplo
+              tombi
               ## astro
               astro-language-server
             ]

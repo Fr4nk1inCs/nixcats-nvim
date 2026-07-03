@@ -278,9 +278,9 @@ opts.rust = {
 }
 
 opts.toml = {
-  lsp = "taplo",
+  lsp = "tombi",
   treesitter = "toml",
-  mason = "taplo",
+  mason = "tombi",
 }
 
 opts.typescript = {
