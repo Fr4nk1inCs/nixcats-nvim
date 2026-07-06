@@ -2,7 +2,7 @@
 return {
   init_options = {
     pyrefly = {
-      displayTypeErrors = "force-on",
+      typeCheckingMode = "default",
       analysis = {
         inlayHints = {
           callArgumentNames = "partial",
