@@ -228,7 +228,6 @@
                 img-clip-nvim
                 # external
                 vim-wakatime
-                obsidian-nvim
                 blink-compat
                 im-select-nvim
                 # languages
