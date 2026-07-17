@@ -80,7 +80,7 @@ vim.opt.spelloptions:append("noplainbuffer")
 vim.o.exrc = true
 vim.o.modeline = true
 
-if vim.env.SSH_TTY then
+if vim.env.SSH_CONNECTION then
   local inside_tmux = vim.env.TMUX ~= nil
   local inside_herdr = vim.env.HERDR_ENV ~= nil
 
