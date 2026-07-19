@@ -23,7 +23,10 @@ return {
   {
     "saghen/blink.pairs",
     version = require("nixCatsUtils").lazyAdd("*"),
-    dependencies = require("nixCatsUtils").lazyAdd("saghen/blink.download"),
+    dependencies = require("nixCatsUtils").lazyAdd("saghen/blink.lib"),
+    build = require("nixCatsUtils").lazyAdd(function()
+      require("blink.pairs").download():pwait(60000)
+    end),
     opts = {
       mappings = {
         enabled = true,
