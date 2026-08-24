@@ -52,6 +52,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
         { desc = "LSP: switch inline completion", buffer = bufnr }
       )
     end
+
+    if client:supports_method(vim.lsp.protocol.Methods.textDocument_documentColor, bufnr) then
+      vim.lsp.document_color.enable(true, { bufnr = bufnr, client_id = client.id }, {
+        style = "virtual",
+      })
+    end
   end,
 })
 

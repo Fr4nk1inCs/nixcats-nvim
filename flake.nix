@@ -213,20 +213,17 @@
                 nvim-dap-ui
                 nvim-dap-virtual-text
                 # editor
+                oil-nvim
                 trouble-nvim
                 fzf-lua
                 todo-comments-nvim
                 which-key-nvim
-                neo-tree-nvim
                 flash-nvim
                 yazi-nvim
                 gitsigns-nvim
                 nvim-early-retirement
-                hardtime-nvim
                 atone-nvim
                 grug-far-nvim
-                nvim-highlight-colors
-                # codesnap-nvim
                 img-clip-nvim
                 # external
                 vim-wakatime
