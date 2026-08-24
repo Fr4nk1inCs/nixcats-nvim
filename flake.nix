@@ -167,10 +167,10 @@
               ## astro
               astro-language-server
             ]
-            ++ lib.optionals pkgs.stdenv.isLinux [
+            ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
               xdg-utils
             ]
-            ++ lib.optionals pkgs.stdenv.isDarwin [
+            ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
               coreutils-prefixed
               pngpaste
             ];
@@ -380,7 +380,7 @@
                   "ts-plugin"
                 ];
               }
-              // lib.optionalAttrs pkgs.stdenv.isDarwin {
+              // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
                 skim = toString pkgs.skimpdf;
               };
             extra = { };
