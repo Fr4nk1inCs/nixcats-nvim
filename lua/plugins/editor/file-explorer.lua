@@ -1,10 +1,37 @@
+---@module "lazy"
 ---@type LazySpec[]
 return {
+  ---@module "oil"
   {
     "stevearc/oil.nvim",
     lazy = false,
     dependencies = { "echasnovski/mini.icons" },
-    opts = {},
+    ---@type oil.setupOpts
+    opts = {
+      keymaps = {
+        ["q"] = { "actions.close", mode = "n" },
+      },
+      float = {
+        padding = 5,
+        border = "rounded",
+      },
+    },
+    keys = {
+      {
+        "<leader>fo",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Toggle oil.nvim file explorer",
+      },
+      {
+        "<leader>o",
+        function()
+          require("oil").toggle_float()
+        end,
+        desc = "Open oil.nvim file explorer",
+      },
+    },
   },
   ---@module "yazi"
   {
