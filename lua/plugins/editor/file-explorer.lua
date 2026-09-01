@@ -9,6 +9,10 @@ return {
     ---@type oil.setupOpts
     opts = {
       keymaps = {
+        ["<C-h>"] = false,
+        ["<C-l>"] = false,
+        ["<C-->"] = { "actions.select", opts = { horizontal = true } },
+        ["<C-r>"] = "actions.refresh",
         ["q"] = { "actions.close", mode = "n" },
       },
       float = {
