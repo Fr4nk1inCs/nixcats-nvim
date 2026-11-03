@@ -74,7 +74,7 @@ vim.opt.winminwidth = 5 -- Minimum window width
 vim.opt.wrap = false -- Disable line wrap
 vim.opt.smoothscroll = true
 
-vim.opt.shortmess:append({ W = true, I = true, c = true, C = true })
+vim.opt.shortmess:append("cCWI")
 vim.opt.spelloptions:append("noplainbuffer")
 
 vim.o.exrc = true
