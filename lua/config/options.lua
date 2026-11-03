@@ -80,20 +80,24 @@ vim.opt.spelloptions:append("noplainbuffer")
 vim.o.exrc = true
 vim.o.modeline = true
 
-if vim.env.SSH_CONNECTION then
-  local inside_tmux = vim.env.TMUX ~= nil
-  local inside_herdr = vim.env.HERDR_ENV ~= nil
+local ssh = vim.env.SSH_CONNECTION ~= nil
+local rex = vim.env.REX_SESSION ~= nil
+local remote = ssh or rex
 
-  if not (inside_tmux or inside_herdr) then
+if remote then
+  local tmux = vim.env.TMUX ~= nil
+  local herdr = vim.env.HERDR_ENV ~= nil
+
+  if not (tmux or herdr or rex) then
     vim.g.clipboard = "osc52"
     return
   end
 
   local paste
 
-  if inside_tmux then
+  if tmux then
     paste = { "bash", "-c", "tmux refresh-client -l && sleep 0.05 && tmux save-buffer -" }
-  elseif inside_herdr then
+  elseif herdr or rex then
     paste = function()
       return {
         vim.fn.split(vim.fn.getreg(""), "\n"),
@@ -105,7 +109,7 @@ if vim.env.SSH_CONNECTION then
   end
 
   vim.g.clipboard = {
-    name = "TmuxRemoteClipboard",
+    name = "MuxRemoteClipboard",
     copy = {
       ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
       ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
