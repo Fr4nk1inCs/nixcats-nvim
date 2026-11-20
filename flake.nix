@@ -166,6 +166,8 @@
               tombi
               ## astro
               astro-language-server
+              ## zig
+              zls
             ]
             ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
               xdg-utils

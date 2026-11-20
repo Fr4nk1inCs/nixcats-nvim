@@ -60,6 +60,7 @@ M.lualine = require("utils.lualine")
 M.root = require("utils.root")
 M.lang = require("utils.lang")
 M.autofmt = require("utils.autofmt")
+M.lsp = require("utils.lsp")
 
 _G.Utils = M
 return M

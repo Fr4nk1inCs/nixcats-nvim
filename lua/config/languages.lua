@@ -342,6 +342,12 @@ opts.typst = {
   },
 }
 
+opts.zig = {
+  lsp = "zls",
+  treesitter = "zig",
+  mason = { "zls" },
+}
+
 local local_opts = Utils.lang.resolve_local() or {}
 opts = vim.tbl_extend("keep", local_opts, opts)
 local merged = Utils.lang.merge(opts)
