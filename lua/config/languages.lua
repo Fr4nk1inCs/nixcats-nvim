@@ -205,9 +205,7 @@ opts.latex = {
 }
 
 opts.markdown = {
-  lsp = "marksman",
   treesitter = { "markdown", "markdown_inline" },
-  mason = { "marksman" },
   plugin = {
     {
       "MeanderingProgrammer/render-markdown.nvim",

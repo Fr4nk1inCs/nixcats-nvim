@@ -149,7 +149,6 @@
               ## latex
               texlab
               ## markdown
-              marksman
               markdownlint-cli2
               ## rust
               rust-analyzer
