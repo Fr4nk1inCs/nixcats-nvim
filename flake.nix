@@ -227,7 +227,6 @@
                 grug-far-nvim
                 img-clip-nvim
                 # external
-                vim-wakatime
                 blink-compat
                 im-select-nvim
                 # languages
